@@ -73,7 +73,12 @@ void internal_error_handler(void)
   HAL_GPIO_WritePin(DEBUG_1_GPIO_Port, DEBUG_1_Pin, GPIO_PIN_RESET);
   HAL_GPIO_WritePin(DEBUG_2_GPIO_Port, DEBUG_2_Pin, GPIO_PIN_RESET);
   HAL_GPIO_WritePin(MCU_OK_GPIO_Port, MCU_OK_Pin, GPIO_PIN_RESET);
-  // should also close all relays
+  // close all relays
+  HAL_GPIO_WritePin(HVCP_EN_GPIO_Port,HVCP_EN_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(HVCN_EN_GPIO_Port,HVCN_EN_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(PRECHRG_EN_GPIO_Port,PRECHRG_EN_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(CHRGP_EN_GPIO_Port,CHRGP_EN_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(CHRGN_EN_GPIO_Port,CHRGN_EN_Pin, GPIO_PIN_RESET);
   // comms over canbus of what the error was?
   while (1)
   { // freeze everything off
@@ -90,9 +95,10 @@ void internal_error_handler(void)
 void discharge_handler(void)
 {
   /*
-   Insert code for toggling relays and checking that aux opened
+   Insert code for checking that aux opened
   */
- 
+  HAL_GPIO_WritePin(HVCP_EN_GPIO_Port,HVCP_EN_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(HVCN_EN_GPIO_Port,HVCN_EN_Pin, GPIO_PIN_RESET);
   // actually discharge the board
   HAL_GPIO_WritePin(MCU_OK_GPIO_Port, MCU_OK_Pin, GPIO_PIN_RESET);
   int i = 0;
@@ -118,6 +124,8 @@ void toggle_precharge(void)
   /*
    Insert code for toggling relays and checking that aux closed
   */
+  HAL_GPIO_WritePin(HVCN_EN_GPIO_Port,HVCN_EN_Pin, GPIO_PIN_SET);
+  HAL_GPIO_WritePin(PRECHRG_EN_GPIO_Port,PRECHRG_EN_Pin, GPIO_PIN_SET);
 
   HAL_GPIO_WritePin(DEBUG_1_GPIO_Port, DEBUG_1_Pin, GPIO_PIN_SET);
   int i = 0;
@@ -129,6 +137,9 @@ void toggle_precharge(void)
     HAL_Delay(500);
   }
 
+  HAL_GPIO_WritePin(HVCP_EN_GPIO_Port,HVCP_EN_Pin, GPIO_PIN_SET);
+  HAL_Delay(1000);
+  HAL_GPIO_WritePin(PRECHRG_EN_GPIO_Port,PRECHRG_EN_Pin, GPIO_PIN_RESET);
   // LED demo code
   HAL_GPIO_WritePin(DEBUG_1_GPIO_Port, DEBUG_1_Pin, GPIO_PIN_SET);
   HAL_GPIO_WritePin(DEBUG_2_GPIO_Port, DEBUG_2_Pin, GPIO_PIN_RESET);
@@ -142,6 +153,8 @@ void toggle_precharge(void)
  */
 void toggle_charging(void)
 {
+  HAL_GPIO_WritePin(CHRGP_EN_GPIO_Port,CHRGP_EN_Pin, GPIO_PIN_SET);
+  HAL_GPIO_WritePin(CHRGN_EN_GPIO_Port,CHRGN_EN_Pin, GPIO_PIN_SET);
   HAL_GPIO_WritePin(DEBUG_2_GPIO_Port, DEBUG_2_Pin, GPIO_PIN_SET);
   return;
 }
@@ -153,6 +166,8 @@ void toggle_charging(void)
  */
 void untoggle_charging(void)
 {
+  HAL_GPIO_WritePin(CHRGP_EN_GPIO_Port,CHRGP_EN_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(CHRGN_EN_GPIO_Port,CHRGN_EN_Pin, GPIO_PIN_RESET);
   HAL_GPIO_WritePin(DEBUG_2_GPIO_Port, DEBUG_2_Pin, GPIO_PIN_RESET);
   return;
 }
