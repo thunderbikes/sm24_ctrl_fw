@@ -57,10 +57,38 @@ void Error_Handler(void);
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/
+#define HVCN_EN_Pin GPIO_PIN_0
+#define HVCN_EN_GPIO_Port GPIOC
+#define HVCP_EN_Pin GPIO_PIN_1
+#define HVCP_EN_GPIO_Port GPIOC
+#define CHRGP_EN_Pin GPIO_PIN_2
+#define CHRGP_EN_GPIO_Port GPIOC
+#define CHRGN_EN_Pin GPIO_PIN_3
+#define CHRGN_EN_GPIO_Port GPIOC
+#define VSENSE_IN_Pin GPIO_PIN_0
+#define VSENSE_IN_GPIO_Port GPIOA
+#define BMS_GPIO1_Pin GPIO_PIN_1
+#define BMS_GPIO1_GPIO_Port GPIOA
+#define BMS_GPIO2_Pin GPIO_PIN_2
+#define BMS_GPIO2_GPIO_Port GPIOA
+#define BMS_GPIO3_Pin GPIO_PIN_3
+#define BMS_GPIO3_GPIO_Port GPIOA
+#define PRECHRG_EN_Pin GPIO_PIN_4
+#define PRECHRG_EN_GPIO_Port GPIOC
+#define IGNITION_SW_Pin GPIO_PIN_5
+#define IGNITION_SW_GPIO_Port GPIOC
+#define CHARGE_SW_Pin GPIO_PIN_0
+#define CHARGE_SW_GPIO_Port GPIOB
 #define DEBUG_1_Pin GPIO_PIN_1
 #define DEBUG_1_GPIO_Port GPIOB
 #define DEBUG_2_Pin GPIO_PIN_2
 #define DEBUG_2_GPIO_Port GPIOB
+#define PUMP_EN_Pin GPIO_PIN_7
+#define PUMP_EN_GPIO_Port GPIOC
+#define SAFETY_LOOP_STATUS_Pin GPIO_PIN_9
+#define SAFETY_LOOP_STATUS_GPIO_Port GPIOC
+#define MCU_OK_Pin GPIO_PIN_8
+#define MCU_OK_GPIO_Port GPIOA
 
 /* USER CODE BEGIN Private defines */
 
