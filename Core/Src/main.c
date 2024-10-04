@@ -498,11 +498,11 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Pull = GPIO_PULLDOWN;
   HAL_GPIO_Init(IGNITION_SW_GPIO_Port, &GPIO_InitStruct);
 
-  /*Configure GPIO pin : CHARGE_SW_Pin */
-  GPIO_InitStruct.Pin = CHARGE_SW_Pin;
+  /*Configure GPIO pins : CHARGE_SW_Pin HVCP_AUX_Pin HVCN_AUX_Pin PRECHRG_AUX_Pin */
+  GPIO_InitStruct.Pin = CHARGE_SW_Pin|HVCP_AUX_Pin|HVCN_AUX_Pin|PRECHRG_AUX_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
   GPIO_InitStruct.Pull = GPIO_PULLDOWN;
-  HAL_GPIO_Init(CHARGE_SW_GPIO_Port, &GPIO_InitStruct);
+  HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
 
   /*Configure GPIO pins : DEBUG_1_Pin DEBUG_2_Pin */
   GPIO_InitStruct.Pin = DEBUG_1_Pin|DEBUG_2_Pin;
