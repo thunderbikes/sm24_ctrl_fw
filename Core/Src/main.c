@@ -223,13 +223,25 @@ uint8_t get_switch_status(void)
 }
 
 /**
- * @brief   TODO - Checks to ensure that the aux contactors are in the expected position for the current state. 
+ * @brief   Checks to ensure that the aux contactors are in the expected position for the current state. 
  * @param   current_status 
  * @author  Peter Woolsey
  */
-void aux_check(uint8_t)
+void aux_check(uint8_t current_status)
 {
-  HAL_Delay(500);
+  if (HAL_GPIO_ReadPin(PRECHRG_AUX_GPIO_Port, PRECHRG_AUX_Pin) == GPIO_PIN_SET){
+    internal_error_handler();
+  }
+  if (current_status == OPERATION){
+    if (HAL_GPIO_ReadPin(HVCP_AUX_GPIO_Port, HVCP_AUX_Pin) == GPIO_PIN_RESET || HAL_GPIO_ReadPin(HVCN_AUX_GPIO_Port, HVCN_AUX_Pin) == GPIO_PIN_RESET){
+      internal_error_handler();
+    } 
+  } else {
+    if (HAL_GPIO_ReadPin(HVCP_AUX_GPIO_Port, HVCP_AUX_Pin) == GPIO_PIN_SET || HAL_GPIO_ReadPin(HVCN_AUX_GPIO_Port, HVCN_AUX_Pin) == GPIO_PIN_SET){
+      internal_error_handler();
+    } 
+  }
+  HAL_Delay(100);
   return;
   // placeholder
 }

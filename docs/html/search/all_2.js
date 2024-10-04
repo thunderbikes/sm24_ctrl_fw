@@ -604,5 +604,5 @@ var searchData=
   ['automatic_20output_20enable_601',['TIM Automatic Output Enable',['../group__TIM__AOE__Bit__Set__Reset.html',1,'']]],
   ['automaticoutput_602',['AutomaticOutput',['../structTIM__BreakDeadTimeConfigTypeDef.html#ae591f2368d0be5b77d8a746e73eabe71',1,'TIM_BreakDeadTimeConfigTypeDef']]],
   ['autoreloadpreload_603',['AutoReloadPreload',['../structTIM__Base__InitTypeDef.html#a29e7b91a384f12e6be0f3ffb62ea1ea7',1,'TIM_Base_InitTypeDef']]],
-  ['aux_5fcheck_604',['aux_check',['../main_8c.html#a8fbe10c297ae419fc7a223fe42455566',1,'main.c']]]
+  ['aux_5fcheck_604',['aux_check',['../main_8c.html#a89f20add17ade99e1d26a397690088e3',1,'main.c']]]
 ];
