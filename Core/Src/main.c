@@ -36,6 +36,8 @@
 #define OPERATION 1
 #define CHARGING 2
 #define ERROR 3
+
+#define AUX_SET_DELAY 100
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -100,6 +102,12 @@ void discharge_handler(void)
   HAL_GPIO_WritePin(HVCP_EN_GPIO_Port,HVCP_EN_Pin, GPIO_PIN_RESET);
   HAL_GPIO_WritePin(HVCN_EN_GPIO_Port,HVCN_EN_Pin, GPIO_PIN_RESET);
   // actually discharge the board
+  HAL_Delay(AUX_SET_DELAY);
+  
+  if (HAL_GPIO_ReadPin(HVCN_AUX_GPIO_Port, HVCN_AUX_Pin) == GPIO_PIN_SET || HAL_GPIO_ReadPin(HVCP_AUX_GPIO_Port, HVCP_AUX_Pin) == GPIO_PIN_SET){
+    internal_error_handler();
+  }
+
   HAL_GPIO_WritePin(MCU_OK_GPIO_Port, MCU_OK_Pin, GPIO_PIN_RESET);
   int i = 0;
   while (i < 5)
@@ -121,11 +129,14 @@ void discharge_handler(void)
  */
 void toggle_precharge(void)
 {
-  /*
-   Insert code for toggling relays and checking that aux closed
-  */
   HAL_GPIO_WritePin(HVCN_EN_GPIO_Port,HVCN_EN_Pin, GPIO_PIN_SET);
   HAL_GPIO_WritePin(PRECHRG_EN_GPIO_Port,PRECHRG_EN_Pin, GPIO_PIN_SET);
+
+  HAL_Delay(AUX_SET_DELAY);
+
+  if (HAL_GPIO_ReadPin(HVCN_AUX_GPIO_Port, HVCN_AUX_Pin) == GPIO_PIN_RESET || HAL_GPIO_ReadPin(PRECHRG_AUX_GPIO_Port, PRECHRG_AUX_Pin) == GPIO_PIN_RESET){
+    internal_error_handler();
+  }
 
   HAL_GPIO_WritePin(DEBUG_1_GPIO_Port, DEBUG_1_Pin, GPIO_PIN_SET);
   int i = 0;
@@ -140,6 +151,12 @@ void toggle_precharge(void)
   HAL_GPIO_WritePin(HVCP_EN_GPIO_Port,HVCP_EN_Pin, GPIO_PIN_SET);
   HAL_Delay(1000);
   HAL_GPIO_WritePin(PRECHRG_EN_GPIO_Port,PRECHRG_EN_Pin, GPIO_PIN_RESET);
+  
+  HAL_Delay(AUX_SET_DELAY);
+  
+  if (HAL_GPIO_ReadPin(HVCN_AUX_GPIO_Port, HVCN_AUX_Pin) == GPIO_PIN_RESET || HAL_GPIO_ReadPin(HVCP_AUX_GPIO_Port, HVCP_AUX_Pin) == GPIO_PIN_RESET){
+    internal_error_handler();
+  }
   // LED demo code
   HAL_GPIO_WritePin(DEBUG_1_GPIO_Port, DEBUG_1_Pin, GPIO_PIN_SET);
   HAL_GPIO_WritePin(DEBUG_2_GPIO_Port, DEBUG_2_Pin, GPIO_PIN_RESET);
