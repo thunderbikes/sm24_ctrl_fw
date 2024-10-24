@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['pwr_5fpvdtypedef_0',['PWR_PVDTypeDef',['../structPWR__PVDTypeDef.html',1,'']]],
-  ['pwr_5ftypedef_1',['PWR_TypeDef',['../structPWR__TypeDef.html',1,'']]]
+  ['nvic_5ftype_0',['NVIC_Type',['../struct_n_v_i_c___type.html',1,'']]]
 ];
