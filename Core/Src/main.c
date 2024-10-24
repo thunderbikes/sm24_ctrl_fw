@@ -115,10 +115,8 @@ int vsense(uint16_t vsense_target, int num_tries)
     HAL_Delay(50);
     i++;
     }
-    
 
-
-  return 0;
+  return 0; //num_tries exceeded
 }
 
 /**
