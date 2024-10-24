@@ -95,7 +95,6 @@ int main(void)
   MX_SPI1_Init();
   /* USER CODE BEGIN 2 */
   uint16_t value_adc;
-  HAL_ADC_Start(&hadc1);
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -103,7 +102,7 @@ int main(void)
   while (1)
   {
     HAL_GPIO_TogglePin(DEBUG_1_GPIO_Port, DEBUG_1_Pin); //LED1
-    
+    HAL_ADC_Start(&hadc1); //Needs to be called every time
     HAL_ADC_PollForConversion(&hadc1, HAL_MAX_DELAY);
     value_adc = HAL_ADC_GetValue(&hadc1);
     if (value_adc > 948) { // 4095 * 24(target voltage) / 103.6
