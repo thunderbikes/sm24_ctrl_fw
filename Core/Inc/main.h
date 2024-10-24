@@ -89,6 +89,12 @@ void Error_Handler(void);
 #define SAFETY_LOOP_STATUS_GPIO_Port GPIOC
 #define MCU_OK_Pin GPIO_PIN_8
 #define MCU_OK_GPIO_Port GPIOA
+#define HVCP_AUX_Pin GPIO_PIN_4
+#define HVCP_AUX_GPIO_Port GPIOB
+#define HVCN_AUX_Pin GPIO_PIN_5
+#define HVCN_AUX_GPIO_Port GPIOB
+#define PRECHRG_AUX_Pin GPIO_PIN_6
+#define PRECHRG_AUX_GPIO_Port GPIOB
 
 /* USER CODE BEGIN Private defines */
 

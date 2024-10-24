@@ -603,5 +603,6 @@ var searchData=
   ['autoinjectedconv_600',['AutoInjectedConv',['../structADC__InjectionConfTypeDef.html#a39b2ddf75be46eb2d474e261e7b1c875',1,'ADC_InjectionConfTypeDef']]],
   ['automatic_20output_20enable_601',['TIM Automatic Output Enable',['../group__TIM__AOE__Bit__Set__Reset.html',1,'']]],
   ['automaticoutput_602',['AutomaticOutput',['../structTIM__BreakDeadTimeConfigTypeDef.html#ae591f2368d0be5b77d8a746e73eabe71',1,'TIM_BreakDeadTimeConfigTypeDef']]],
-  ['autoreloadpreload_603',['AutoReloadPreload',['../structTIM__Base__InitTypeDef.html#a29e7b91a384f12e6be0f3ffb62ea1ea7',1,'TIM_Base_InitTypeDef']]]
+  ['autoreloadpreload_603',['AutoReloadPreload',['../structTIM__Base__InitTypeDef.html#a29e7b91a384f12e6be0f3ffb62ea1ea7',1,'TIM_Base_InitTypeDef']]],
+  ['aux_5fcheck_604',['aux_check',['../main_8c.html#a89f20add17ade99e1d26a397690088e3',1,'main.c']]]
 ];
