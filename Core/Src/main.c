@@ -95,20 +95,21 @@ int main(void)
   MX_SPI1_Init();
   /* USER CODE BEGIN 2 */
   uint16_t value_adc;
+  HAL_ADC_Start(&hadc1);
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-    HAL_GPIO_TogglePin(DEBUG_1_GPIO_Port, DEBUG_1_Pin);
-    HAL_ADC_Start(&hadc1);
+    HAL_GPIO_TogglePin(DEBUG_1_GPIO_Port, DEBUG_1_Pin); //LED1
+    
     HAL_ADC_PollForConversion(&hadc1, HAL_MAX_DELAY);
     value_adc = HAL_ADC_GetValue(&hadc1);
     if (value_adc > 948) { // 4095 * 24(target voltage) / 103.6
-      HAL_GPIO_WritePin(DEBUG_2_GPIO_Port, DEBUG_2_Pin, GPIO_PIN_SET);
+      HAL_GPIO_WritePin(DEBUG_2_GPIO_Port, DEBUG_2_Pin, GPIO_PIN_SET); //LED2
     } else {
-      HAL_GPIO_WritePin(DEBUG_2_GPIO_Port, DEBUG_2_Pin, GPIO_PIN_RESET);
+      HAL_GPIO_WritePin(DEBUG_2_GPIO_Port, DEBUG_2_Pin, GPIO_PIN_RESET); //LED2
     }
     HAL_Delay(500);
 
