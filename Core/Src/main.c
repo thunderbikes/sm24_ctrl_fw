@@ -37,7 +37,7 @@
 #define CHARGING 2
 #define ERROR 3
 
-#define AUX_SET_DELAY 100
+#define AUX_SET_DELAY 300
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -106,13 +106,13 @@ int vsense(uint16_t vsense_target, int num_tries)
     HAL_ADC_Start(&hadc1); //Needs to be called every time
     HAL_ADC_PollForConversion(&hadc1, HAL_MAX_DELAY);
     value_adc = HAL_ADC_GetValue(&hadc1);
-    if (value_adc > vsense_target) { // 4095 * 24(target voltage) / 103.6
+    if (value_adc > vsense_target) { 
       HAL_GPIO_WritePin(DEBUG_2_GPIO_Port, DEBUG_2_Pin, GPIO_PIN_SET); //LED2
       return 1;
     } else {
       HAL_GPIO_WritePin(DEBUG_2_GPIO_Port, DEBUG_2_Pin, GPIO_PIN_RESET); //LED2
     }
-    HAL_Delay(50);
+    HAL_Delay(500);
     i++;
     }
 
@@ -173,8 +173,8 @@ void toggle_precharge(void)
 
   HAL_GPIO_WritePin(DEBUG_1_GPIO_Port, DEBUG_1_Pin, GPIO_PIN_SET);
   int i = 0;
-  uint16_t vsense_target = 1000; 
-  int num_tries = 1000; 
+  uint16_t vsense_target = 980; // 4095 * 24(target voltage) / 103.6
+  int num_tries = 100; // 50ms delay * num_tries = max time in vsense
 
   // while (i < 5)
   // { 
