@@ -114,6 +114,12 @@ Macros</h2></td></tr>
 <tr class="memitem:a8fe83ac76edc595f6b98cd4a4127aed5" id="r_a8fe83ac76edc595f6b98cd4a4127aed5"><td class="memItemLeft" align="right" valign="top"><a id="a8fe83ac76edc595f6b98cd4a4127aed5" name="a8fe83ac76edc595f6b98cd4a4127aed5"></a>
 #define&#160;</td><td class="memItemRight" valign="bottom"><b>ERROR</b>&#160;&#160;&#160;3</td></tr>
 <tr class="separator:a8fe83ac76edc595f6b98cd4a4127aed5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a093dd273c900bae9cba2b32149e30eaa" id="r_a093dd273c900bae9cba2b32149e30eaa"><td class="memItemLeft" align="right" valign="top"><a id="a093dd273c900bae9cba2b32149e30eaa" name="a093dd273c900bae9cba2b32149e30eaa"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>PRECHARGE</b>&#160;&#160;&#160;1</td></tr>
+<tr class="separator:a093dd273c900bae9cba2b32149e30eaa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ada01daa2f7f4d3954188a9774f6338aa" id="r_ada01daa2f7f4d3954188a9774f6338aa"><td class="memItemLeft" align="right" valign="top"><a id="ada01daa2f7f4d3954188a9774f6338aa" name="ada01daa2f7f4d3954188a9774f6338aa"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>DISCHARGE</b>&#160;&#160;&#160;2</td></tr>
+<tr class="separator:ada01daa2f7f4d3954188a9774f6338aa"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab31fc7d0402bb58724b0753d3e398d74" id="r_ab31fc7d0402bb58724b0753d3e398d74"><td class="memItemLeft" align="right" valign="top"><a id="ab31fc7d0402bb58724b0753d3e398d74" name="ab31fc7d0402bb58724b0753d3e398d74"></a>
 #define&#160;</td><td class="memItemRight" valign="bottom"><b>AUX_SET_DELAY</b>&#160;&#160;&#160;300</td></tr>
 <tr class="separator:ab31fc7d0402bb58724b0753d3e398d74"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -126,9 +132,9 @@ Functions</h2></td></tr>
 <tr class="memitem:a535dd3bb5171e1387e3971b3cdbbf2e5" id="r_a535dd3bb5171e1387e3971b3cdbbf2e5"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a535dd3bb5171e1387e3971b3cdbbf2e5">internal_error_handler</a> (void)</td></tr>
 <tr class="memdesc:a535dd3bb5171e1387e3971b3cdbbf2e5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Error handler for error detection in operational logic. Currently implemented as a while(1) loop.  <br /></td></tr>
 <tr class="separator:a535dd3bb5171e1387e3971b3cdbbf2e5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9d247e71fb9a51fad51935c0a05ea52d" id="r_a9d247e71fb9a51fad51935c0a05ea52d"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9d247e71fb9a51fad51935c0a05ea52d">vsense</a> (uint16_t vsense_target, int num_tries)</td></tr>
-<tr class="memdesc:a9d247e71fb9a51fad51935c0a05ea52d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Checks the precharge voltage until voltage threshold is reached a certain number of times. If max tries is reached, the error handler is called.  <br /></td></tr>
-<tr class="separator:a9d247e71fb9a51fad51935c0a05ea52d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a49ec23a67daece504efd379ea7d3ebcd" id="r_a49ec23a67daece504efd379ea7d3ebcd"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a49ec23a67daece504efd379ea7d3ebcd">vsense</a> (int MODE, uint16_t vsense_target, int num_tries)</td></tr>
+<tr class="memdesc:a49ec23a67daece504efd379ea7d3ebcd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Checks the precharge voltage until voltage threshold is reached a certain number of times. If max tries is reached, the error handler is called. MODE is either DISCHARGE OR PRECHARGE.  <br /></td></tr>
+<tr class="separator:a49ec23a67daece504efd379ea7d3ebcd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5f8f3b29bfcc87734d01297454c416de" id="r_a5f8f3b29bfcc87734d01297454c416de"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5f8f3b29bfcc87734d01297454c416de">discharge_handler</a> (void)</td></tr>
 <tr class="memdesc:a5f8f3b29bfcc87734d01297454c416de"><td class="mdescLeft">&#160;</td><td class="mdescRight">Handles the state transition from OPERATION to STARTUP.  <br /></td></tr>
 <tr class="separator:a5f8f3b29bfcc87734d01297454c416de"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -429,8 +435,8 @@ Variables</h2></td></tr>
 
 </div>
 </div>
-<a id="a9d247e71fb9a51fad51935c0a05ea52d" name="a9d247e71fb9a51fad51935c0a05ea52d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9d247e71fb9a51fad51935c0a05ea52d">&#9670;&#160;</a></span>vsense()</h2>
+<a id="a49ec23a67daece504efd379ea7d3ebcd" name="a49ec23a67daece504efd379ea7d3ebcd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a49ec23a67daece504efd379ea7d3ebcd">&#9670;&#160;</a></span>vsense()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -438,6 +444,11 @@ Variables</h2></td></tr>
         <tr>
           <td class="memname">int vsense </td>
           <td>(</td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>MODE</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
           <td class="paramtype">uint16_t</td>          <td class="paramname"><span class="paramname"><em>vsense_target</em></span>, </td>
         </tr>
         <tr>
@@ -448,11 +459,12 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Checks the precharge voltage until voltage threshold is reached a certain number of times. If max tries is reached, the error handler is called. </p>
+<p>Checks the precharge voltage until voltage threshold is reached a certain number of times. If max tries is reached, the error handler is called. MODE is either DISCHARGE OR PRECHARGE. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">vsense_target</td><td></td></tr>
-    <tr><td class="paramname">num_tries</td><td></td></tr>
+    <tr><td class="paramname">vsense_target</td><td>target threshold </td></tr>
+    <tr><td class="paramname">num_tries</td><td>number of vsense read attempts </td></tr>
+    <tr><td class="paramname">MODE</td><td>either PRECHARGE or DISCHARGE </td></tr>
   </table>
   </dd>
 </dl>

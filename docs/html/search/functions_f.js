@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['vsense_0',['vsense',['../main_8c.html#a9d247e71fb9a51fad51935c0a05ea52d',1,'main.c']]]
+  ['vsense_0',['vsense',['../main_8c.html#a49ec23a67daece504efd379ea7d3ebcd',1,'main.c']]]
 ];
