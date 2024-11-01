@@ -97,6 +97,7 @@ void internal_error_handler(void)
  * @param   vsense_target target threshold
  * @param   num_tries number of vsense read attempts
  * @param   MODE either PRECHARGE or DISCHARGE
+ * @returns 1 if target is reached. 0 if num_tries is exceeded. 
  * @author  Alex Martinez
  */
 int vsense(int MODE, uint16_t vsense_target, int num_tries)
