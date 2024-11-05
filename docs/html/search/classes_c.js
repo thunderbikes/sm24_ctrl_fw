@@ -1,10 +1,11 @@
 var searchData=
 [
-  ['scb_5ftype_0',['SCB_Type',['../structSCB__Type.html',1,'']]],
-  ['scnscb_5ftype_1',['SCnSCB_Type',['../structSCnSCB__Type.html',1,'']]],
-  ['sdio_5ftypedef_2',['SDIO_TypeDef',['../structSDIO__TypeDef.html',1,'']]],
-  ['spi_5finittypedef_3',['SPI_InitTypeDef',['../structSPI__InitTypeDef.html',1,'']]],
-  ['spi_5ftypedef_4',['SPI_TypeDef',['../structSPI__TypeDef.html',1,'']]],
-  ['syscfg_5ftypedef_5',['SYSCFG_TypeDef',['../structSYSCFG__TypeDef.html',1,'']]],
-  ['systick_5ftype_6',['SysTick_Type',['../structSysTick__Type.html',1,'']]]
+  ['rcc_5fclkinittypedef_0',['RCC_ClkInitTypeDef',['../struct_r_c_c___clk_init_type_def.html',1,'']]],
+  ['rcc_5foscinittypedef_1',['RCC_OscInitTypeDef',['../struct_r_c_c___osc_init_type_def.html',1,'']]],
+  ['rcc_5fperiphclkinittypedef_2',['RCC_PeriphCLKInitTypeDef',['../struct_r_c_c___periph_c_l_k_init_type_def.html',1,'']]],
+  ['rcc_5fplli2sinittypedef_3',['RCC_PLLI2SInitTypeDef',['../struct_r_c_c___p_l_l_i2_s_init_type_def.html',1,'']]],
+  ['rcc_5fpllinittypedef_4',['RCC_PLLInitTypeDef',['../struct_r_c_c___p_l_l_init_type_def.html',1,'']]],
+  ['rcc_5ftypedef_5',['RCC_TypeDef',['../struct_r_c_c___type_def.html',1,'']]],
+  ['rng_5ftypedef_6',['RNG_TypeDef',['../struct_r_n_g___type_def.html',1,'']]],
+  ['rtc_5ftypedef_7',['RTC_TypeDef',['../struct_r_t_c___type_def.html',1,'']]]
 ];

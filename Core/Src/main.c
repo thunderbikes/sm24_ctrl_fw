@@ -37,7 +37,7 @@
 #define CHARGING 2
 #define ERROR 3
 
-#define AUX_SET_DELAY 100
+#define AUX_SET_DELAY 300
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -90,6 +90,36 @@ void internal_error_handler(void)
 }
 
 /**
+ * @brief   Checks the precharge voltage until voltage threshold is reached a certain number of times. If max tries is reached, the error handler is called. 
+ * @param   vsense_target
+ * @param   num_tries
+ * @author  Alex Martinez
+ */
+int vsense(uint16_t vsense_target, int num_tries)
+{
+    int i=0;
+    uint16_t value_adc;
+    while(i<num_tries)
+    {
+    HAL_GPIO_TogglePin(DEBUG_1_GPIO_Port, DEBUG_1_Pin); //LED1
+
+    HAL_ADC_Start(&hadc1); //Needs to be called every time
+    HAL_ADC_PollForConversion(&hadc1, HAL_MAX_DELAY);
+    value_adc = HAL_ADC_GetValue(&hadc1);
+    if (value_adc > vsense_target) { 
+      HAL_GPIO_WritePin(DEBUG_2_GPIO_Port, DEBUG_2_Pin, GPIO_PIN_SET); //LED2
+      return 1;
+    } else {
+      HAL_GPIO_WritePin(DEBUG_2_GPIO_Port, DEBUG_2_Pin, GPIO_PIN_RESET); //LED2
+    }
+    HAL_Delay(500);
+    i++;
+    }
+
+  return 0; //num_tries exceeded
+}
+
+/**
  * @brief Handles the state transition from OPERATION to STARTUP
  * @param  None
  * @author Peter Woolsey
@@ -122,6 +152,9 @@ void discharge_handler(void)
   return;
 }
 
+
+
+ 
 /**
  * @brief   Handles the change of state from STARTUP to OPERATION
  * @param   None
@@ -140,12 +173,11 @@ void toggle_precharge(void)
 
   HAL_GPIO_WritePin(DEBUG_1_GPIO_Port, DEBUG_1_Pin, GPIO_PIN_SET);
   int i = 0;
-  while (i < 5)
-  { // replace w/ vsense code (break? on undervoltage)
-    i++;
-    HAL_GPIO_TogglePin(DEBUG_1_GPIO_Port, DEBUG_1_Pin);
-    HAL_GPIO_TogglePin(DEBUG_2_GPIO_Port, DEBUG_2_Pin);
-    HAL_Delay(500);
+  uint16_t vsense_target = 980; // 4095 * 24(target voltage) / 103.6
+  int num_tries = 100; // 500ms delay * num_tries = max time in vsense
+  
+  if(!vsense(vsense_target, num_tries)){ //vsense has its own loop based on num_tries. Returns 0 if tries are exceeded. 
+    internal_error_handler();
   }
 
   HAL_GPIO_WritePin(HVCP_EN_GPIO_Port,HVCP_EN_Pin, GPIO_PIN_SET);
@@ -245,6 +277,10 @@ void aux_check(uint8_t current_status)
   return;
   // placeholder
 }
+
+
+
+
 /* USER CODE END 0 */
 
 /**
@@ -282,6 +318,7 @@ int main(void)
   // Setup
   uint8_t status = STARTUP;
   uint8_t new_status;
+  
   HAL_Delay(500);
   HAL_GPIO_WritePin(MCU_OK_GPIO_Port, MCU_OK_Pin, GPIO_PIN_SET);
   /* USER CODE END 2 */
