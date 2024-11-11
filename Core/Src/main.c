@@ -191,7 +191,8 @@ void toggle_precharge(void)
 
   HAL_GPIO_WritePin(DEBUG_1_GPIO_Port, DEBUG_1_Pin, GPIO_PIN_SET);
   uint16_t vsense_target = 980; // 4095 * 24(target voltage) / 103.6
-  int num_tries = 100; // 50ms delay * num_tries = max time in vsense
+
+  int num_tries = 100; // 500ms delay * num_tries = max time in vsense
   
   if(!vsense(PRECHARGE, vsense_target, num_tries)){ //vsense has its own loop based on num_tries. Returns 0 if tries are exceeded. 
     internal_error_handler();
