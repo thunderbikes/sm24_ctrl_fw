@@ -37,6 +37,9 @@
 #define CHARGING 2
 #define ERROR 3
 
+#define PRECHARGE 1
+#define DISCHARGE 2
+
 #define AUX_SET_DELAY 300
 /* USER CODE END PD */
 
@@ -90,27 +93,41 @@ void internal_error_handler(void)
 }
 
 /**
- * @brief   Checks the precharge voltage until voltage threshold is reached a certain number of times. If max tries is reached, the error handler is called. 
- * @param   vsense_target
- * @param   num_tries
+ * @brief   Checks the precharge voltage until voltage threshold is reached a certain number of times. If max tries is reached, the error handler is called. MODE is either DISCHARGE OR PRECHARGE. 
+ * @param   vsense_target target threshold
+ * @param   num_tries number of vsense read attempts
+ * @param   MODE either PRECHARGE or DISCHARGE
+ * @returns 1 if target is reached. 0 if num_tries is exceeded. 
  * @author  Alex Martinez
  */
-int vsense(uint16_t vsense_target, int num_tries)
+int vsense(int MODE, uint16_t vsense_target, int num_tries)
 {
     int i=0;
     uint16_t value_adc;
     while(i<num_tries)
     {
-    HAL_GPIO_TogglePin(DEBUG_1_GPIO_Port, DEBUG_1_Pin); //LED1
+    HAL_GPIO_TogglePin(DEBUG_1_GPIO_Port, DEBUG_1_Pin); //LED1 will flash 
 
     HAL_ADC_Start(&hadc1); //Needs to be called every time
     HAL_ADC_PollForConversion(&hadc1, HAL_MAX_DELAY);
     value_adc = HAL_ADC_GetValue(&hadc1);
-    if (value_adc > vsense_target) { 
-      HAL_GPIO_WritePin(DEBUG_2_GPIO_Port, DEBUG_2_Pin, GPIO_PIN_SET); //LED2
-      return 1;
+
+    if(MODE == PRECHARGE){ //PRECHARGE vsense logic 
+      if (value_adc > vsense_target) { 
+        HAL_GPIO_WritePin(DEBUG_2_GPIO_Port, DEBUG_2_Pin, GPIO_PIN_SET); //LED2
+        return 1;
+      } else {
+        HAL_GPIO_WritePin(DEBUG_2_GPIO_Port, DEBUG_2_Pin, GPIO_PIN_RESET); //LED2
+      }
+    } else if (MODE == DISCHARGE){ //DISCHARGE vsense logic 
+        if (value_adc < vsense_target) { 
+        HAL_GPIO_WritePin(DEBUG_2_GPIO_Port, DEBUG_2_Pin, GPIO_PIN_SET); //LED2
+        return 1;
+      } else {
+        HAL_GPIO_WritePin(DEBUG_2_GPIO_Port, DEBUG_2_Pin, GPIO_PIN_RESET); //LED2
+      }
     } else {
-      HAL_GPIO_WritePin(DEBUG_2_GPIO_Port, DEBUG_2_Pin, GPIO_PIN_RESET); //LED2
+      internal_error_handler();
     }
     HAL_Delay(500);
     i++;
@@ -139,11 +156,12 @@ void discharge_handler(void)
   }
 
   HAL_GPIO_WritePin(MCU_OK_GPIO_Port, MCU_OK_Pin, GPIO_PIN_RESET);
-  int i = 0;
-  while (i < 5)
-  { // replace w/ vsense code (break? on undervoltage)
-    i++;
-    HAL_Delay(500);
+
+  uint16_t vsense_target = 200; // 4095 * V(target voltage) / 103.6
+  int num_tries = 100; // 50ms delay * num_tries = max time in vsense
+  
+  if(!vsense(DISCHARGE, vsense_target, num_tries)){ //vsense has its own loop based on num_tries. Returns 0 if tries are exceeded. 
+    internal_error_handler();
   }
   HAL_GPIO_WritePin(MCU_OK_GPIO_Port, MCU_OK_Pin, GPIO_PIN_SET);
 
@@ -172,11 +190,11 @@ void toggle_precharge(void)
   }
 
   HAL_GPIO_WritePin(DEBUG_1_GPIO_Port, DEBUG_1_Pin, GPIO_PIN_SET);
-  int i = 0;
   uint16_t vsense_target = 980; // 4095 * 24(target voltage) / 103.6
+
   int num_tries = 100; // 500ms delay * num_tries = max time in vsense
   
-  if(!vsense(vsense_target, num_tries)){ //vsense has its own loop based on num_tries. Returns 0 if tries are exceeded. 
+  if(!vsense(PRECHARGE, vsense_target, num_tries)){ //vsense has its own loop based on num_tries. Returns 0 if tries are exceeded. 
     internal_error_handler();
   }
 
