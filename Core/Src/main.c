@@ -41,6 +41,7 @@
 #define DISCHARGE 2
 
 #define AUX_SET_DELAY 300
+#define DISCHARGE_THRESHOLD 200 // 4095 * V(target voltage) / 103.6
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -50,9 +51,9 @@
 
 /* Private variables ---------------------------------------------------------*/
 ADC_HandleTypeDef hadc1;
-
 SPI_HandleTypeDef hspi1;
-
+// only until CANBUS is implemented
+float battery_voltage = 24.0;
 /* USER CODE BEGIN PV */
 
 /* USER CODE END PV */
@@ -157,7 +158,7 @@ void discharge_handler(void)
 
   HAL_GPIO_WritePin(MCU_OK_GPIO_Port, MCU_OK_Pin, GPIO_PIN_RESET);
 
-  uint16_t vsense_target = 200; // 4095 * V(target voltage) / 103.6
+  uint16_t vsense_target = DISCHARGE_THRESHOLD; 
   int num_tries = 100; // 50ms delay * num_tries = max time in vsense
   
   if(!vsense(DISCHARGE, vsense_target, num_tries)){ //vsense has its own loop based on num_tries. Returns 0 if tries are exceeded. 
@@ -190,7 +191,7 @@ void toggle_precharge(void)
   }
 
   HAL_GPIO_WritePin(DEBUG_1_GPIO_Port, DEBUG_1_Pin, GPIO_PIN_SET);
-  uint16_t vsense_target = 980; // 4095 * 24(target voltage) / 103.6
+  uint16_t vsense_target = (uint16_t) 39.527027027 * battery_voltage;
 
   int num_tries = 100; // 500ms delay * num_tries = max time in vsense
   
