@@ -191,7 +191,7 @@ void toggle_precharge(void)
   }
 
   HAL_GPIO_WritePin(DEBUG_1_GPIO_Port, DEBUG_1_Pin, GPIO_PIN_SET);
-  uint16_t vsense_target = (uint16_t) 39.527027027 * battery_voltage;
+  uint16_t vsense_target = battery_voltage * (uint16_t) 35.5743243243; // 4095 / 103.6 * 0.9
 
   int num_tries = 100; // 500ms delay * num_tries = max time in vsense
   
