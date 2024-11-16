@@ -52,10 +52,9 @@
 /* Private variables ---------------------------------------------------------*/
 ADC_HandleTypeDef hadc1;
 SPI_HandleTypeDef hspi1;
+/* USER CODE BEGIN PV */
 // only until CANBUS is implemented
 float battery_voltage = 24.0;
-/* USER CODE BEGIN PV */
-
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
