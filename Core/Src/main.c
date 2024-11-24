@@ -100,7 +100,7 @@ void internal_error_handler(void)
  * @returns 1 if target is reached. 0 if num_tries is exceeded. 
  * @author  Alex Martinez
  */
-int vsense(int MODE, uint16_t vsense_target, int num_tries)
+int vsense(int mode, uint16_t vsense_target, int num_tries)
 {
     int i=0;
     uint16_t value_adc;
@@ -112,14 +112,14 @@ int vsense(int MODE, uint16_t vsense_target, int num_tries)
     HAL_ADC_PollForConversion(&hadc1, HAL_MAX_DELAY);
     value_adc = HAL_ADC_GetValue(&hadc1);
 
-    if(MODE == PRECHARGE){ //PRECHARGE vsense logic 
+    if(mode == PRECHARGE){ //PRECHARGE vsense logic 
       if (value_adc > vsense_target) { 
         HAL_GPIO_WritePin(DEBUG_2_GPIO_Port, DEBUG_2_Pin, GPIO_PIN_SET); //LED2
         return 1;
       } else {
         HAL_GPIO_WritePin(DEBUG_2_GPIO_Port, DEBUG_2_Pin, GPIO_PIN_RESET); //LED2
       }
-    } else if (MODE == DISCHARGE){ //DISCHARGE vsense logic 
+    } else if (mode == DISCHARGE){ //DISCHARGE vsense logic 
         if (value_adc < vsense_target) { 
         HAL_GPIO_WritePin(DEBUG_2_GPIO_Port, DEBUG_2_Pin, GPIO_PIN_SET); //LED2
         return 1;

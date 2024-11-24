@@ -135,9 +135,9 @@ Functions</h2></td></tr>
 <tr class="memitem:a535dd3bb5171e1387e3971b3cdbbf2e5" id="r_a535dd3bb5171e1387e3971b3cdbbf2e5"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a535dd3bb5171e1387e3971b3cdbbf2e5">internal_error_handler</a> (void)</td></tr>
 <tr class="memdesc:a535dd3bb5171e1387e3971b3cdbbf2e5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Error handler for error detection in operational logic. Currently implemented as a while(1) loop.  <br /></td></tr>
 <tr class="separator:a535dd3bb5171e1387e3971b3cdbbf2e5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a49ec23a67daece504efd379ea7d3ebcd" id="r_a49ec23a67daece504efd379ea7d3ebcd"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a49ec23a67daece504efd379ea7d3ebcd">vsense</a> (int MODE, uint16_t vsense_target, int num_tries)</td></tr>
-<tr class="memdesc:a49ec23a67daece504efd379ea7d3ebcd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Checks the precharge voltage until voltage threshold is reached a certain number of times. If max tries is reached, the error handler is called. MODE is either DISCHARGE OR PRECHARGE.  <br /></td></tr>
-<tr class="separator:a49ec23a67daece504efd379ea7d3ebcd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3da3d43c7ba9d42b1cd7b962559de340" id="r_a3da3d43c7ba9d42b1cd7b962559de340"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3da3d43c7ba9d42b1cd7b962559de340">vsense</a> (int mode, uint16_t vsense_target, int num_tries)</td></tr>
+<tr class="memdesc:a3da3d43c7ba9d42b1cd7b962559de340"><td class="mdescLeft">&#160;</td><td class="mdescRight">Checks the precharge voltage until voltage threshold is reached a certain number of times. If max tries is reached, the error handler is called. MODE is either DISCHARGE OR PRECHARGE.  <br /></td></tr>
+<tr class="separator:a3da3d43c7ba9d42b1cd7b962559de340"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5f8f3b29bfcc87734d01297454c416de" id="r_a5f8f3b29bfcc87734d01297454c416de"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5f8f3b29bfcc87734d01297454c416de">discharge_handler</a> (void)</td></tr>
 <tr class="memdesc:a5f8f3b29bfcc87734d01297454c416de"><td class="mdescLeft">&#160;</td><td class="mdescRight">Handles the state transition from OPERATION to STARTUP.  <br /></td></tr>
 <tr class="separator:a5f8f3b29bfcc87734d01297454c416de"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -441,8 +441,8 @@ float&#160;</td><td class="memItemRight" valign="bottom"><b>battery_voltage</b> 
 
 </div>
 </div>
-<a id="a49ec23a67daece504efd379ea7d3ebcd" name="a49ec23a67daece504efd379ea7d3ebcd"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a49ec23a67daece504efd379ea7d3ebcd">&#9670;&#160;</a></span>vsense()</h2>
+<a id="a3da3d43c7ba9d42b1cd7b962559de340" name="a3da3d43c7ba9d42b1cd7b962559de340"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3da3d43c7ba9d42b1cd7b962559de340">&#9670;&#160;</a></span>vsense()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -450,7 +450,7 @@ float&#160;</td><td class="memItemRight" valign="bottom"><b>battery_voltage</b> 
         <tr>
           <td class="memname">int vsense </td>
           <td>(</td>
-          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>MODE</em></span>, </td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>mode</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
