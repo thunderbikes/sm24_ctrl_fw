@@ -129,7 +129,7 @@ int vsense(int mode, uint16_t vsense_target, int num_tries)
     } else {
       internal_error_handler();
     }
-    HAL_Delay(500);
+    HAL_Delay(50);
     i++;
     }
 
