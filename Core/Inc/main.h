@@ -67,12 +67,16 @@ void Error_Handler(void);
 #define CHRGN_EN_GPIO_Port GPIOC
 #define VSENSE_IN_Pin GPIO_PIN_0
 #define VSENSE_IN_GPIO_Port GPIOA
-#define BMS_GPIO1_Pin GPIO_PIN_1
-#define BMS_GPIO1_GPIO_Port GPIOA
-#define BMS_GPIO2_Pin GPIO_PIN_2
-#define BMS_GPIO2_GPIO_Port GPIOA
-#define BMS_GPIO3_Pin GPIO_PIN_3
-#define BMS_GPIO3_GPIO_Port GPIOA
+#define TEMP_A_Pin GPIO_PIN_1
+#define TEMP_A_GPIO_Port GPIOA
+#define BMS_OUT2_Pin GPIO_PIN_2
+#define BMS_OUT2_GPIO_Port GPIOA
+#define BMS_OUT3_Pin GPIO_PIN_3
+#define BMS_OUT3_GPIO_Port GPIOA
+#define SAFETY_LOOP_ST_Pin GPIO_PIN_6
+#define SAFETY_LOOP_ST_GPIO_Port GPIOA
+#define BB_TEMP_1_Pin GPIO_PIN_7
+#define BB_TEMP_1_GPIO_Port GPIOA
 #define PRECHRG_EN_Pin GPIO_PIN_4
 #define PRECHRG_EN_GPIO_Port GPIOC
 #define IGNITION_SW_Pin GPIO_PIN_5
@@ -85,16 +89,18 @@ void Error_Handler(void);
 #define DEBUG_2_GPIO_Port GPIOB
 #define PUMP_EN_Pin GPIO_PIN_7
 #define PUMP_EN_GPIO_Port GPIOC
-#define SAFETY_LOOP_STATUS_Pin GPIO_PIN_9
-#define SAFETY_LOOP_STATUS_GPIO_Port GPIOC
 #define MCU_OK_Pin GPIO_PIN_8
 #define MCU_OK_GPIO_Port GPIOA
+#define LATCH_RST_Pin GPIO_PIN_11
+#define LATCH_RST_GPIO_Port GPIOC
 #define HVCP_AUX_Pin GPIO_PIN_4
 #define HVCP_AUX_GPIO_Port GPIOB
 #define HVCN_AUX_Pin GPIO_PIN_5
 #define HVCN_AUX_GPIO_Port GPIOB
 #define PRECHRG_AUX_Pin GPIO_PIN_6
 #define PRECHRG_AUX_GPIO_Port GPIOB
+#define IMD_IO_H_Pin GPIO_PIN_7
+#define IMD_IO_H_GPIO_Port GPIOB
 
 /* USER CODE BEGIN Private defines */
 
