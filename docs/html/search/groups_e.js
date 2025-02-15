@@ -6,6 +6,7 @@ var searchData=
   ['not_20in_20scb_20scnscb_3',['System Controls not in SCB (SCnSCB)',['../group___c_m_s_i_s___s_cn_s_c_b.html',1,'']]],
   ['nrst_5fstdby_4',['FLASH Option Bytes nRST_STDBY',['../group___f_l_a_s_h_ex___option___bytes__n_r_s_t___s_t_d_b_y.html',1,'']]],
   ['nrst_5fstop_5',['FLASH Option Bytes nRST_STOP',['../group___f_l_a_s_h_ex___option___bytes__n_r_s_t___s_t_o_p.html',1,'']]],
-  ['nvic_6',['Nested Vectored Interrupt Controller (NVIC)',['../group___c_m_s_i_s___n_v_i_c.html',1,'']]],
-  ['nvic_20functions_7',['NVIC Functions',['../group___c_m_s_i_s___core___n_v_i_c_functions.html',1,'']]]
+  ['number_20of_20stop_20bits_6',['UART Number of Stop Bits',['../group___u_a_r_t___stop___bits.html',1,'']]],
+  ['nvic_7',['Nested Vectored Interrupt Controller (NVIC)',['../group___c_m_s_i_s___n_v_i_c.html',1,'']]],
+  ['nvic_20functions_8',['NVIC Functions',['../group___c_m_s_i_s___core___n_v_i_c_functions.html',1,'']]]
 ];

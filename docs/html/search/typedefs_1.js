@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['spi_5fhandletypedef_0',['SPI_HandleTypeDef',['../group___s_p_i___exported___types.html#gab633e49dd034de2f3a1fe79853d78d18',1,'stm32f2xx_hal_spi.h']]]
+  ['hal_5fuart_5frxeventtypetypedef_0',['HAL_UART_RxEventTypeTypeDef',['../group___u_a_r_t___exported___types.html#gadddf3d5480235c945dc8eec58f961203',1,'stm32f2xx_hal_uart.h']]],
+  ['hal_5fuart_5frxtypetypedef_1',['HAL_UART_RxTypeTypeDef',['../group___u_a_r_t___exported___types.html#ga9f272475ea543a68fd8cb19f03a9bce9',1,'stm32f2xx_hal_uart.h']]]
 ];

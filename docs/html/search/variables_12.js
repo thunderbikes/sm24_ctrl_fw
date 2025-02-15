@@ -14,7 +14,7 @@ var searchData=
   ['rdlr_11',['RDLR',['../struct_c_a_n___f_i_f_o_mail_box___type_def.html#ac7d62861de29d0b4fcf11fabbdbd76e7',1,'CAN_FIFOMailBox_TypeDef']]],
   ['rdplevel_12',['RDPLevel',['../struct_f_l_a_s_h___o_b_program_init_type_def.html#a1f613ba2b87cf9caa84dc1d493e96dae',1,'FLASH_OBProgramInitTypeDef']]],
   ['rdtr_13',['RDTR',['../struct_c_a_n___f_i_f_o_mail_box___type_def.html#a49d74ca8b402c2b9596bfcbe4cd051a9',1,'CAN_FIFOMailBox_TypeDef']]],
-  ['repetitioncounter_14',['RepetitionCounter',['../struct_t_i_m___base___init_type_def.html#aa949328175500fd1d112f64a4db5ae79',1,'TIM_Base_InitTypeDef']]],
+  ['receptiontype_14',['ReceptionType',['../struct_____u_a_r_t___handle_type_def.html#ad43c273339bc3aaee1e848e20390d01c',1,'__UART_HandleTypeDef']]],
   ['reserved_15',['RESERVED',['../struct_s_y_s_c_f_g___type_def.html#a43926e6d31a976a0018b2d1f5c92645d',1,'SYSCFG_TypeDef']]],
   ['reserved0_16',['RESERVED0',['../struct_c_a_n___type_def.html#ad0cc7fb26376c435bbf148e962739337',1,'CAN_TypeDef::RESERVED0'],['../struct_c_r_c___type_def.html#a70dfd1730dba65041550ef55a44db87c',1,'CRC_TypeDef::RESERVED0'],['../struct_f_s_m_c___bank2__3___type_def.html#ab98b5f66dde8be663a9b3abaff675794',1,'FSMC_Bank2_3_TypeDef::RESERVED0'],['../struct_r_c_c___type_def.html#a646631532167f3386763a2d10a881a04',1,'RCC_TypeDef::RESERVED0'],['../struct_s_d_i_o___type_def.html#a33cb9d9c17ad0f0c3071cac5e75297a9',1,'SDIO_TypeDef::RESERVED0']]],
   ['reserved0c_17',['Reserved0C',['../struct_u_s_b___o_t_g___device_type_def.html#a954d7e94f74e00af915feadd074eb98e',1,'USB_OTG_DeviceTypeDef']]],
@@ -47,7 +47,8 @@ var searchData=
   ['rtcclockselection_44',['RTCClockSelection',['../struct_r_c_c___periph_c_l_k_init_type_def.html#ad2c422d62b056a61d7bbb599c89dbc1e',1,'RCC_PeriphCLKInitTypeDef']]],
   ['rtsr_45',['RTSR',['../struct_e_x_t_i___type_def.html#ac019d211d8c880b327a1b90a06cc0675',1,'EXTI_TypeDef']]],
   ['rxcrcr_46',['RXCRCR',['../struct_s_p_i___type_def.html#a60f1f0e77c52e89cfd738999bee5c9d0',1,'SPI_TypeDef']]],
-  ['rxisr_47',['RxISR',['../struct_____s_p_i___handle_type_def.html#a599045b20d284f94e5a367a85cad9f39',1,'__SPI_HandleTypeDef']]],
-  ['rxxfercount_48',['RxXferCount',['../struct_____s_p_i___handle_type_def.html#a67e721440b3449d544a27cfd7726c920',1,'__SPI_HandleTypeDef']]],
-  ['rxxfersize_49',['RxXferSize',['../struct_____s_p_i___handle_type_def.html#ab274a4c2de5e95145d45fe80a289f535',1,'__SPI_HandleTypeDef']]]
+  ['rxeventtype_47',['RxEventType',['../struct_____u_a_r_t___handle_type_def.html#a00d86b409cac22035cef8c118bb22adf',1,'__UART_HandleTypeDef']]],
+  ['rxstate_48',['RxState',['../struct_____u_a_r_t___handle_type_def.html#a1b5639a73b305432afeb6aa18506d0fb',1,'__UART_HandleTypeDef']]],
+  ['rxxfercount_49',['RxXferCount',['../struct_____u_a_r_t___handle_type_def.html#a04c4b8902fadb460835b8856123453e1',1,'__UART_HandleTypeDef']]],
+  ['rxxfersize_50',['RxXferSize',['../struct_____u_a_r_t___handle_type_def.html#adcd45d8ba72e0883dc85a6f217437809',1,'__UART_HandleTypeDef']]]
 ];

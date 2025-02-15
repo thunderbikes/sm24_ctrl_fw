@@ -109,7 +109,7 @@ $(function(){ initResizable(false); });
 <div class="line"><a id="l00036" name="l00036"></a><span class="lineno"><a class="line" href="stm32f2xx__hal__conf_8h.html#a877ae99e8c47a609ea97c888912bf75f">   36</a></span><span class="preprocessor">#define HAL_MODULE_ENABLED</span></div>
 <div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span><span class="preprocessor">#define HAL_ADC_MODULE_ENABLED</span></div>
 <div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span><span class="comment">/*#define HAL_CRYP_MODULE_ENABLED   */</span></div>
-<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span><span class="comment">/*#define HAL_CAN_MODULE_ENABLED   */</span></div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span><span class="preprocessor">#define HAL_CAN_MODULE_ENABLED</span></div>
 <div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span><span class="comment">/*#define HAL_CAN_LEGACY_MODULE_ENABLED   */</span></div>
 <div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span><span class="comment">/*#define HAL_CRC_MODULE_ENABLED   */</span></div>
 <div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span><span class="comment">/*#define HAL_CRYP_MODULE_ENABLED   */</span></div>
@@ -128,9 +128,9 @@ $(function(){ initResizable(false); });
 <div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span><span class="comment">/*#define HAL_RTC_MODULE_ENABLED   */</span></div>
 <div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span><span class="comment">/*#define HAL_SD_MODULE_ENABLED   */</span></div>
 <div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span><span class="comment">/*#define HAL_MMC_MODULE_ENABLED   */</span></div>
-<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span><span class="preprocessor">#define HAL_SPI_MODULE_ENABLED</span></div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span><span class="comment">/*#define HAL_SPI_MODULE_ENABLED   */</span></div>
 <div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span><span class="comment">/*#define HAL_TIM_MODULE_ENABLED   */</span></div>
-<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span><span class="comment">/*#define HAL_UART_MODULE_ENABLED   */</span></div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span><span class="preprocessor">#define HAL_UART_MODULE_ENABLED</span></div>
 <div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span><span class="comment">/*#define HAL_USART_MODULE_ENABLED   */</span></div>
 <div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span><span class="comment">/*#define HAL_IRDA_MODULE_ENABLED   */</span></div>
 <div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span><span class="comment">/*#define HAL_SMARTCARD_MODULE_ENABLED   */</span></div>
@@ -147,7 +147,7 @@ $(function(){ initResizable(false); });
 <div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span> </div>
 <div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span><span class="comment">/* ########################## HSE/HSI Values adaptation ##################### */</span></div>
 <div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span><span class="preprocessor">#if !defined  (HSE_VALUE)</span></div>
-<div class="line"><a id="l00082" name="l00082"></a><span class="lineno"><a class="line" href="stm32f2xx__hal__conf_8h.html#aeafcff4f57440c60e64812dddd13e7cb">   82</a></span><span class="preprocessor">  #define HSE_VALUE    25000000U </span></div>
+<div class="line"><a id="l00082" name="l00082"></a><span class="lineno"><a class="line" href="stm32f2xx__hal__conf_8h.html#aeafcff4f57440c60e64812dddd13e7cb">   82</a></span><span class="preprocessor">  #define HSE_VALUE    16000000U </span></div>
 <div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span><span class="preprocessor">#endif </span><span class="comment">/* HSE_VALUE */</span><span class="preprocessor"></span></div>
 <div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span> </div>
 <div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span><span class="preprocessor">#if !defined  (HSE_STARTUP_TIMEOUT)</span></div>
@@ -300,7 +300,7 @@ $(function(){ initResizable(false); });
 <div class="line"><a id="l00267" name="l00267"></a><span class="lineno">  267</span><span class="preprocessor">#endif </span><span class="comment">/* HAL_ADC_MODULE_ENABLED */</span><span class="preprocessor"></span></div>
 <div class="line"><a id="l00268" name="l00268"></a><span class="lineno">  268</span> </div>
 <div class="line"><a id="l00269" name="l00269"></a><span class="lineno">  269</span><span class="preprocessor">#ifdef HAL_CAN_MODULE_ENABLED</span></div>
-<div class="line"><a id="l00270" name="l00270"></a><span class="lineno">  270</span><span class="preprocessor">  #include &quot;stm32f2xx_hal_can.h&quot;</span></div>
+<div class="line"><a id="l00270" name="l00270"></a><span class="lineno">  270</span><span class="preprocessor">  #include &quot;<a class="code" href="stm32f2xx__hal__can_8h.html">stm32f2xx_hal_can.h</a>&quot;</span></div>
 <div class="line"><a id="l00271" name="l00271"></a><span class="lineno">  271</span><span class="preprocessor">#endif </span><span class="comment">/* HAL_CAN_MODULE_ENABLED */</span><span class="preprocessor"></span></div>
 <div class="line"><a id="l00272" name="l00272"></a><span class="lineno">  272</span> </div>
 <div class="line"><a id="l00273" name="l00273"></a><span class="lineno">  273</span><span class="preprocessor">#ifdef HAL_CAN_LEGACY_MODULE_ENABLED</span></div>
@@ -380,15 +380,15 @@ $(function(){ initResizable(false); });
 <div class="line"><a id="l00347" name="l00347"></a><span class="lineno">  347</span><span class="preprocessor">#endif </span><span class="comment">/* HAL_SD_MODULE_ENABLED */</span><span class="preprocessor"></span></div>
 <div class="line"><a id="l00348" name="l00348"></a><span class="lineno">  348</span> </div>
 <div class="line"><a id="l00349" name="l00349"></a><span class="lineno">  349</span><span class="preprocessor">#ifdef HAL_SPI_MODULE_ENABLED</span></div>
-<div class="line"><a id="l00350" name="l00350"></a><span class="lineno">  350</span><span class="preprocessor"> #include &quot;<a class="code" href="stm32f2xx__hal__spi_8h.html">stm32f2xx_hal_spi.h</a>&quot;</span></div>
+<div class="line"><a id="l00350" name="l00350"></a><span class="lineno">  350</span><span class="preprocessor"> #include &quot;stm32f2xx_hal_spi.h&quot;</span></div>
 <div class="line"><a id="l00351" name="l00351"></a><span class="lineno">  351</span><span class="preprocessor">#endif </span><span class="comment">/* HAL_SPI_MODULE_ENABLED */</span><span class="preprocessor"></span></div>
 <div class="line"><a id="l00352" name="l00352"></a><span class="lineno">  352</span> </div>
 <div class="line"><a id="l00353" name="l00353"></a><span class="lineno">  353</span><span class="preprocessor">#ifdef HAL_TIM_MODULE_ENABLED</span></div>
-<div class="line"><a id="l00354" name="l00354"></a><span class="lineno">  354</span><span class="preprocessor"> #include &quot;<a class="code" href="stm32f2xx__hal__tim_8h.html">stm32f2xx_hal_tim.h</a>&quot;</span></div>
+<div class="line"><a id="l00354" name="l00354"></a><span class="lineno">  354</span><span class="preprocessor"> #include &quot;stm32f2xx_hal_tim.h&quot;</span></div>
 <div class="line"><a id="l00355" name="l00355"></a><span class="lineno">  355</span><span class="preprocessor">#endif </span><span class="comment">/* HAL_TIM_MODULE_ENABLED */</span><span class="preprocessor"></span></div>
 <div class="line"><a id="l00356" name="l00356"></a><span class="lineno">  356</span> </div>
 <div class="line"><a id="l00357" name="l00357"></a><span class="lineno">  357</span><span class="preprocessor">#ifdef HAL_UART_MODULE_ENABLED</span></div>
-<div class="line"><a id="l00358" name="l00358"></a><span class="lineno">  358</span><span class="preprocessor"> #include &quot;stm32f2xx_hal_uart.h&quot;</span></div>
+<div class="line"><a id="l00358" name="l00358"></a><span class="lineno">  358</span><span class="preprocessor"> #include &quot;<a class="code" href="stm32f2xx__hal__uart_8h.html">stm32f2xx_hal_uart.h</a>&quot;</span></div>
 <div class="line"><a id="l00359" name="l00359"></a><span class="lineno">  359</span><span class="preprocessor">#endif </span><span class="comment">/* HAL_UART_MODULE_ENABLED */</span><span class="preprocessor"></span></div>
 <div class="line"><a id="l00360" name="l00360"></a><span class="lineno">  360</span> </div>
 <div class="line"><a id="l00361" name="l00361"></a><span class="lineno">  361</span><span class="preprocessor">#ifdef HAL_USART_MODULE_ENABLED</span></div>
@@ -433,6 +433,7 @@ $(function(){ initResizable(false); });
 <div class="line"><a id="l00408" name="l00408"></a><span class="lineno">  408</span> </div>
 <div class="line"><a id="l00409" name="l00409"></a><span class="lineno">  409</span><span class="preprocessor">#endif </span><span class="comment">/* __STM32F2xx_HAL_CONF_H */</span><span class="preprocessor"></span></div>
 <div class="ttc" id="astm32f2xx__hal__adc_8h_html"><div class="ttname"><a href="stm32f2xx__hal__adc_8h.html">stm32f2xx_hal_adc.h</a></div><div class="ttdoc">Header file of ADC HAL extension module.</div></div>
+<div class="ttc" id="astm32f2xx__hal__can_8h_html"><div class="ttname"><a href="stm32f2xx__hal__can_8h.html">stm32f2xx_hal_can.h</a></div><div class="ttdoc">Header file of CAN HAL module.</div></div>
 <div class="ttc" id="astm32f2xx__hal__cortex_8h_html"><div class="ttname"><a href="stm32f2xx__hal__cortex_8h.html">stm32f2xx_hal_cortex.h</a></div><div class="ttdoc">Header file of CORTEX HAL module.</div></div>
 <div class="ttc" id="astm32f2xx__hal__dma_8h_html"><div class="ttname"><a href="stm32f2xx__hal__dma_8h.html">stm32f2xx_hal_dma.h</a></div><div class="ttdoc">Header file of DMA HAL module.</div></div>
 <div class="ttc" id="astm32f2xx__hal__exti_8h_html"><div class="ttname"><a href="stm32f2xx__hal__exti_8h.html">stm32f2xx_hal_exti.h</a></div><div class="ttdoc">Header file of EXTI HAL module.</div></div>
@@ -440,8 +441,7 @@ $(function(){ initResizable(false); });
 <div class="ttc" id="astm32f2xx__hal__gpio_8h_html"><div class="ttname"><a href="stm32f2xx__hal__gpio_8h.html">stm32f2xx_hal_gpio.h</a></div><div class="ttdoc">Header file of GPIO HAL module.</div></div>
 <div class="ttc" id="astm32f2xx__hal__pwr_8h_html"><div class="ttname"><a href="stm32f2xx__hal__pwr_8h.html">stm32f2xx_hal_pwr.h</a></div><div class="ttdoc">Header file of PWR HAL module.</div></div>
 <div class="ttc" id="astm32f2xx__hal__rcc_8h_html"><div class="ttname"><a href="stm32f2xx__hal__rcc_8h.html">stm32f2xx_hal_rcc.h</a></div><div class="ttdoc">Header file of RCC HAL module.</div></div>
-<div class="ttc" id="astm32f2xx__hal__spi_8h_html"><div class="ttname"><a href="stm32f2xx__hal__spi_8h.html">stm32f2xx_hal_spi.h</a></div><div class="ttdoc">Header file of SPI HAL module.</div></div>
-<div class="ttc" id="astm32f2xx__hal__tim_8h_html"><div class="ttname"><a href="stm32f2xx__hal__tim_8h.html">stm32f2xx_hal_tim.h</a></div><div class="ttdoc">Header file of TIM HAL module.</div></div>
+<div class="ttc" id="astm32f2xx__hal__uart_8h_html"><div class="ttname"><a href="stm32f2xx__hal__uart_8h.html">stm32f2xx_hal_uart.h</a></div><div class="ttdoc">Header file of UART HAL module.</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

@@ -102,9 +102,10 @@ $(function(){ initResizable(false); });
 <code>#include &quot;<a class="el" href="stm32f2xx__hal__dma_8h_source.html">stm32f2xx_hal_dma.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="stm32f2xx__hal__cortex_8h_source.html">stm32f2xx_hal_cortex.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="stm32f2xx__hal__adc_8h_source.html">stm32f2xx_hal_adc.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="stm32f2xx__hal__can_8h_source.html">stm32f2xx_hal_can.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="stm32f2xx__hal__flash_8h_source.html">stm32f2xx_hal_flash.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="stm32f2xx__hal__pwr_8h_source.html">stm32f2xx_hal_pwr.h</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="stm32f2xx__hal__spi_8h_source.html">stm32f2xx_hal_spi.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="stm32f2xx__hal__uart_8h_source.html">stm32f2xx_hal_uart.h</a>&quot;</code><br />
 </div>
 <p><a href="stm32f2xx__hal__conf_8h_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
@@ -117,9 +118,12 @@ Macros</h2></td></tr>
 <tr class="memitem:a476f1655c969ae57e89a74d98c75f43f" id="r_a476f1655c969ae57e89a74d98c75f43f"><td class="memItemLeft" align="right" valign="top"><a id="a476f1655c969ae57e89a74d98c75f43f" name="a476f1655c969ae57e89a74d98c75f43f"></a>
 #define&#160;</td><td class="memItemRight" valign="bottom"><b>HAL_ADC_MODULE_ENABLED</b></td></tr>
 <tr class="separator:a476f1655c969ae57e89a74d98c75f43f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8ad4712bf4add56892d057778e826e0c" id="r_a8ad4712bf4add56892d057778e826e0c"><td class="memItemLeft" align="right" valign="top"><a id="a8ad4712bf4add56892d057778e826e0c" name="a8ad4712bf4add56892d057778e826e0c"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>HAL_SPI_MODULE_ENABLED</b></td></tr>
-<tr class="separator:a8ad4712bf4add56892d057778e826e0c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad6ee4556883fa38d3a2c26d9a624a109" id="r_ad6ee4556883fa38d3a2c26d9a624a109"><td class="memItemLeft" align="right" valign="top"><a id="ad6ee4556883fa38d3a2c26d9a624a109" name="ad6ee4556883fa38d3a2c26d9a624a109"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>HAL_CAN_MODULE_ENABLED</b></td></tr>
+<tr class="separator:ad6ee4556883fa38d3a2c26d9a624a109"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a167269406e73327b95c3bb7b9cfe6d89" id="r_a167269406e73327b95c3bb7b9cfe6d89"><td class="memItemLeft" align="right" valign="top"><a id="a167269406e73327b95c3bb7b9cfe6d89" name="a167269406e73327b95c3bb7b9cfe6d89"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>HAL_UART_MODULE_ENABLED</b></td></tr>
+<tr class="separator:a167269406e73327b95c3bb7b9cfe6d89"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a86165f80d6078719ee0715afe13febf5" id="r_a86165f80d6078719ee0715afe13febf5"><td class="memItemLeft" align="right" valign="top"><a id="a86165f80d6078719ee0715afe13febf5" name="a86165f80d6078719ee0715afe13febf5"></a>
 #define&#160;</td><td class="memItemRight" valign="bottom"><b>HAL_GPIO_MODULE_ENABLED</b></td></tr>
 <tr class="separator:a86165f80d6078719ee0715afe13febf5"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -141,7 +145,7 @@ Macros</h2></td></tr>
 <tr class="memitem:aa9b5a3a425901e097de70092dbe31e0f" id="r_aa9b5a3a425901e097de70092dbe31e0f"><td class="memItemLeft" align="right" valign="top"><a id="aa9b5a3a425901e097de70092dbe31e0f" name="aa9b5a3a425901e097de70092dbe31e0f"></a>
 #define&#160;</td><td class="memItemRight" valign="bottom"><b>HAL_CORTEX_MODULE_ENABLED</b></td></tr>
 <tr class="separator:aa9b5a3a425901e097de70092dbe31e0f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aeafcff4f57440c60e64812dddd13e7cb" id="r_aeafcff4f57440c60e64812dddd13e7cb"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aeafcff4f57440c60e64812dddd13e7cb">HSE_VALUE</a>&#160;&#160;&#160;25000000U</td></tr>
+<tr class="memitem:aeafcff4f57440c60e64812dddd13e7cb" id="r_aeafcff4f57440c60e64812dddd13e7cb"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aeafcff4f57440c60e64812dddd13e7cb">HSE_VALUE</a>&#160;&#160;&#160;16000000U</td></tr>
 <tr class="memdesc:aeafcff4f57440c60e64812dddd13e7cb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Adjust the value of External High Speed oscillator (HSE) used in your application. This value is used by the RCC HAL module to compute the system frequency (when HSE is used as system clock source, directly or through the PLL).  <br /></td></tr>
 <tr class="separator:aeafcff4f57440c60e64812dddd13e7cb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a68ecbc9b0a1a40a1ec9d18d5e9747c4f" id="r_a68ecbc9b0a1a40a1ec9d18d5e9747c4f"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a68ecbc9b0a1a40a1ec9d18d5e9747c4f">HSE_STARTUP_TIMEOUT</a>&#160;&#160;&#160;100U</td></tr>
@@ -409,7 +413,7 @@ Macros</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define HSE_VALUE&#160;&#160;&#160;25000000U</td>
+          <td class="memname">#define HSE_VALUE&#160;&#160;&#160;16000000U</td>
         </tr>
       </table>
 </div><div class="memdoc">

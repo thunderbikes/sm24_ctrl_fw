@@ -138,7 +138,8 @@ var searchData=
   ['grstctl_135',['GRSTCTL',['../struct_u_s_b___o_t_g___global_type_def.html#a75148d8257eaeec482aa99f8b4a8b0fb',1,'USB_OTG_GlobalTypeDef']]],
   ['grxstsp_136',['GRXSTSP',['../struct_u_s_b___o_t_g___global_type_def.html#a060364111cf507dfab9bb6503477983a',1,'USB_OTG_GlobalTypeDef']]],
   ['grxstsr_137',['GRXSTSR',['../struct_u_s_b___o_t_g___global_type_def.html#a77b651a1120fc5fb647eaccac6f002c6',1,'USB_OTG_GlobalTypeDef']]],
-  ['gtpr_138',['GTPR',['../struct_u_s_a_r_t___type_def.html#ae23acff49b4ff96fd29093e80fc7d72e',1,'USART_TypeDef']]],
-  ['gtzc_20aliased_20defines_20maintained_20for_20legacy_20purpose_139',['HAL GTZC Aliased Defines maintained for legacy purpose',['../group___h_a_l___g_t_z_c___aliased___defines.html',1,'']]],
-  ['gusbcfg_140',['GUSBCFG',['../struct_u_s_b___o_t_g___global_type_def.html#a2094f12e3e4d4e6cc45047dedbfd0acd',1,'USB_OTG_GlobalTypeDef']]]
+  ['gstate_138',['gState',['../struct_____u_a_r_t___handle_type_def.html#a0c4242c009d8754417dfd87a5ab6cb10',1,'__UART_HandleTypeDef']]],
+  ['gtpr_139',['GTPR',['../struct_u_s_a_r_t___type_def.html#ae23acff49b4ff96fd29093e80fc7d72e',1,'USART_TypeDef']]],
+  ['gtzc_20aliased_20defines_20maintained_20for_20legacy_20purpose_140',['HAL GTZC Aliased Defines maintained for legacy purpose',['../group___h_a_l___g_t_z_c___aliased___defines.html',1,'']]],
+  ['gusbcfg_141',['GUSBCFG',['../struct_u_s_b___o_t_g___global_type_def.html#a2094f12e3e4d4e6cc45047dedbfd0acd',1,'USB_OTG_GlobalTypeDef']]]
 ];
