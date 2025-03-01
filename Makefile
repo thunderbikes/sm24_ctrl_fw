@@ -187,8 +187,8 @@ $(BUILD_DIR):
 
 docs: $(BUILD_DIR)/$(TARGET).elf
 	$(info Build successful, creating docs...)
-	rm -rf docs/html
-	doxygen docs/Doxyfile
+	#rm -rf docs/html
+	#doxygen docs/Doxyfile
 
 #######################################
 # clean up
