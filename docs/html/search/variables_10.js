@@ -53,5 +53,6 @@ var searchData=
   ['ptxbuffptr_50',['pTxBuffPtr',['../struct_____u_a_r_t___handle_type_def.html#ac997bb43410d347931f519a745a6e75f',1,'__UART_HandleTypeDef']]],
   ['pull_51',['Pull',['../struct_g_p_i_o___init_type_def.html#aa2d3a6b0c4e10ac20882b4a37799ced1',1,'GPIO_InitTypeDef']]],
   ['pupdr_52',['PUPDR',['../struct_g_p_i_o___type_def.html#a44ada3bfbe891e2efc1e06bda4c8014e',1,'GPIO_TypeDef']]],
-  ['pvdlevel_53',['PVDLevel',['../struct_p_w_r___p_v_d_type_def.html#a540471bc6ac947fd8bc2c87f61d9faab',1,'PWR_PVDTypeDef']]]
+  ['putchar_5fprototype_53',['PUTCHAR_PROTOTYPE',['../main_8c.html#a6b71e3c5cd86d6941c8f4a8beb1b354f',1,'main.c']]],
+  ['pvdlevel_54',['PVDLevel',['../struct_p_w_r___p_v_d_type_def.html#a540471bc6ac947fd8bc2c87f61d9faab',1,'PWR_PVDTypeDef']]]
 ];

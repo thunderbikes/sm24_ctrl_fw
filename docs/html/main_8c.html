@@ -99,66 +99,25 @@ $(function(){ initResizable(false); });
 <p>: Main program body  
 <a href="#details">More...</a></p>
 <div class="textblock"><code>#include &quot;<a class="el" href="main_8h_source.html">main.h</a>&quot;</code><br />
+<code>#include &lt;stdio.h&gt;</code><br />
 </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="define-members" name="define-members"></a>
 Macros</h2></td></tr>
-<tr class="memitem:ad0dd8aa1d9d769cf15609ca108af4af9" id="r_ad0dd8aa1d9d769cf15609ca108af4af9"><td class="memItemLeft" align="right" valign="top"><a id="ad0dd8aa1d9d769cf15609ca108af4af9" name="ad0dd8aa1d9d769cf15609ca108af4af9"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>STARTUP</b>&#160;&#160;&#160;0</td></tr>
-<tr class="separator:ad0dd8aa1d9d769cf15609ca108af4af9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a32c08469940a939beac7000bbbfbab94" id="r_a32c08469940a939beac7000bbbfbab94"><td class="memItemLeft" align="right" valign="top"><a id="a32c08469940a939beac7000bbbfbab94" name="a32c08469940a939beac7000bbbfbab94"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>OPERATION</b>&#160;&#160;&#160;1</td></tr>
-<tr class="separator:a32c08469940a939beac7000bbbfbab94"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa1471d41522f7f4c887a05ff1db37a6e" id="r_aa1471d41522f7f4c887a05ff1db37a6e"><td class="memItemLeft" align="right" valign="top"><a id="aa1471d41522f7f4c887a05ff1db37a6e" name="aa1471d41522f7f4c887a05ff1db37a6e"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>CHARGING</b>&#160;&#160;&#160;2</td></tr>
-<tr class="separator:aa1471d41522f7f4c887a05ff1db37a6e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8fe83ac76edc595f6b98cd4a4127aed5" id="r_a8fe83ac76edc595f6b98cd4a4127aed5"><td class="memItemLeft" align="right" valign="top"><a id="a8fe83ac76edc595f6b98cd4a4127aed5" name="a8fe83ac76edc595f6b98cd4a4127aed5"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>ERROR</b>&#160;&#160;&#160;3</td></tr>
-<tr class="separator:a8fe83ac76edc595f6b98cd4a4127aed5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a093dd273c900bae9cba2b32149e30eaa" id="r_a093dd273c900bae9cba2b32149e30eaa"><td class="memItemLeft" align="right" valign="top"><a id="a093dd273c900bae9cba2b32149e30eaa" name="a093dd273c900bae9cba2b32149e30eaa"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>PRECHARGE</b>&#160;&#160;&#160;1</td></tr>
-<tr class="separator:a093dd273c900bae9cba2b32149e30eaa"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ada01daa2f7f4d3954188a9774f6338aa" id="r_ada01daa2f7f4d3954188a9774f6338aa"><td class="memItemLeft" align="right" valign="top"><a id="ada01daa2f7f4d3954188a9774f6338aa" name="ada01daa2f7f4d3954188a9774f6338aa"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>DISCHARGE</b>&#160;&#160;&#160;2</td></tr>
-<tr class="separator:ada01daa2f7f4d3954188a9774f6338aa"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab31fc7d0402bb58724b0753d3e398d74" id="r_ab31fc7d0402bb58724b0753d3e398d74"><td class="memItemLeft" align="right" valign="top"><a id="ab31fc7d0402bb58724b0753d3e398d74" name="ab31fc7d0402bb58724b0753d3e398d74"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>AUX_SET_DELAY</b>&#160;&#160;&#160;300</td></tr>
-<tr class="separator:ab31fc7d0402bb58724b0753d3e398d74"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a73786ab1fc54f168471453159e763544" id="r_a73786ab1fc54f168471453159e763544"><td class="memItemLeft" align="right" valign="top"><a id="a73786ab1fc54f168471453159e763544" name="a73786ab1fc54f168471453159e763544"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>DISCHARGE_THRESHOLD</b>&#160;&#160;&#160;200</td></tr>
-<tr class="separator:a73786ab1fc54f168471453159e763544"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac040eb6679fed6e591776425aa7abd9d" id="r_ac040eb6679fed6e591776425aa7abd9d"><td class="memItemLeft" align="right" valign="top"><a id="ac040eb6679fed6e591776425aa7abd9d" name="ac040eb6679fed6e591776425aa7abd9d"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>PUTCHAR_PROTOTYPE</b>&#160;&#160;&#160;int __io_putchar(int ch)</td></tr>
+<tr class="separator:ac040eb6679fed6e591776425aa7abd9d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
 <tr class="memitem:a70af21c671abfcc773614a9a4f63d920" id="r_a70af21c671abfcc773614a9a4f63d920"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a70af21c671abfcc773614a9a4f63d920">SystemClock_Config</a> (void)</td></tr>
 <tr class="memdesc:a70af21c671abfcc773614a9a4f63d920"><td class="mdescLeft">&#160;</td><td class="mdescRight">System Clock Configuration.  <br /></td></tr>
 <tr class="separator:a70af21c671abfcc773614a9a4f63d920"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a535dd3bb5171e1387e3971b3cdbbf2e5" id="r_a535dd3bb5171e1387e3971b3cdbbf2e5"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a535dd3bb5171e1387e3971b3cdbbf2e5">internal_error_handler</a> (void)</td></tr>
-<tr class="memdesc:a535dd3bb5171e1387e3971b3cdbbf2e5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Error handler for error detection in operational logic. Currently implemented as a while(1) loop.  <br /></td></tr>
-<tr class="separator:a535dd3bb5171e1387e3971b3cdbbf2e5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3da3d43c7ba9d42b1cd7b962559de340" id="r_a3da3d43c7ba9d42b1cd7b962559de340"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3da3d43c7ba9d42b1cd7b962559de340">vsense</a> (int mode, uint16_t vsense_target, int num_tries)</td></tr>
-<tr class="memdesc:a3da3d43c7ba9d42b1cd7b962559de340"><td class="mdescLeft">&#160;</td><td class="mdescRight">Checks the precharge voltage until voltage threshold is reached a certain number of times. If max tries is reached, the error handler is called. MODE is either DISCHARGE OR PRECHARGE.  <br /></td></tr>
-<tr class="separator:a3da3d43c7ba9d42b1cd7b962559de340"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5f8f3b29bfcc87734d01297454c416de" id="r_a5f8f3b29bfcc87734d01297454c416de"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5f8f3b29bfcc87734d01297454c416de">discharge_handler</a> (void)</td></tr>
-<tr class="memdesc:a5f8f3b29bfcc87734d01297454c416de"><td class="mdescLeft">&#160;</td><td class="mdescRight">Handles the state transition from OPERATION to STARTUP.  <br /></td></tr>
-<tr class="separator:a5f8f3b29bfcc87734d01297454c416de"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9fa17fef276cfdbebf19e5e6e7c9ad23" id="r_a9fa17fef276cfdbebf19e5e6e7c9ad23"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9fa17fef276cfdbebf19e5e6e7c9ad23">toggle_precharge</a> (void)</td></tr>
-<tr class="memdesc:a9fa17fef276cfdbebf19e5e6e7c9ad23"><td class="mdescLeft">&#160;</td><td class="mdescRight">Handles the change of state from STARTUP to OPERATION.  <br /></td></tr>
-<tr class="separator:a9fa17fef276cfdbebf19e5e6e7c9ad23"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0dda2a0dc8bd8a3ce91c01eb26f26013" id="r_a0dda2a0dc8bd8a3ce91c01eb26f26013"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0dda2a0dc8bd8a3ce91c01eb26f26013">toggle_charging</a> (void)</td></tr>
-<tr class="memdesc:a0dda2a0dc8bd8a3ce91c01eb26f26013"><td class="mdescLeft">&#160;</td><td class="mdescRight">Responsible from switching from STARTUP to CHARGING.  <br /></td></tr>
-<tr class="separator:a0dda2a0dc8bd8a3ce91c01eb26f26013"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a11b88bb4dec76d19818ff90e750d61d6" id="r_a11b88bb4dec76d19818ff90e750d61d6"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a11b88bb4dec76d19818ff90e750d61d6">untoggle_charging</a> (void)</td></tr>
-<tr class="memdesc:a11b88bb4dec76d19818ff90e750d61d6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Responsible from switching from CHARGING to STARTUP.  <br /></td></tr>
-<tr class="separator:a11b88bb4dec76d19818ff90e750d61d6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad22bdcadc1a930eb626992922c58a005" id="r_ad22bdcadc1a930eb626992922c58a005"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad22bdcadc1a930eb626992922c58a005">get_switch_status</a> (void)</td></tr>
-<tr class="memdesc:ad22bdcadc1a930eb626992922c58a005"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the switch status through a digital read of the switches' GPIO pins.  <br /></td></tr>
-<tr class="separator:ad22bdcadc1a930eb626992922c58a005"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a89f20add17ade99e1d26a397690088e3" id="r_a89f20add17ade99e1d26a397690088e3"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a89f20add17ade99e1d26a397690088e3">aux_check</a> (uint8_t current_status)</td></tr>
-<tr class="memdesc:a89f20add17ade99e1d26a397690088e3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Checks to ensure that the aux contactors are in the expected position for the current state.  <br /></td></tr>
-<tr class="separator:a89f20add17ade99e1d26a397690088e3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a840291bc02cba5474a4cb46a9b9566fe" id="r_a840291bc02cba5474a4cb46a9b9566fe"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a840291bc02cba5474a4cb46a9b9566fe">main</a> (void)</td></tr>
 <tr class="memdesc:a840291bc02cba5474a4cb46a9b9566fe"><td class="mdescLeft">&#160;</td><td class="mdescRight">The application entry point.  <br /></td></tr>
 <tr class="separator:a840291bc02cba5474a4cb46a9b9566fe"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a27c5aa8d3cd9a3905e327f89470a9c58" id="r_a27c5aa8d3cd9a3905e327f89470a9c58"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a27c5aa8d3cd9a3905e327f89470a9c58">HAL_CAN_RxFifo0MsgPendingCallback</a> (CAN_HandleTypeDef *hcan1)</td></tr>
+<tr class="memdesc:a27c5aa8d3cd9a3905e327f89470a9c58"><td class="mdescLeft">&#160;</td><td class="mdescRight">Print CANBUS Error messages.  <br /></td></tr>
+<tr class="separator:a27c5aa8d3cd9a3905e327f89470a9c58"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1730ffe1e560465665eb47d9264826f9" id="r_a1730ffe1e560465665eb47d9264826f9"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1730ffe1e560465665eb47d9264826f9">Error_Handler</a> (void)</td></tr>
 <tr class="memdesc:a1730ffe1e560465665eb47d9264826f9"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function is executed in case of error occurrence.  <br /></td></tr>
 <tr class="separator:a1730ffe1e560465665eb47d9264826f9"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -177,68 +136,40 @@ CAN_HandleTypeDef&#160;</td><td class="memItemRight" valign="bottom"><b>hcan1</b
 <tr class="memitem:a2cf715bef37f7e8ef385a30974a5f0d5" id="r_a2cf715bef37f7e8ef385a30974a5f0d5"><td class="memItemLeft" align="right" valign="top"><a id="a2cf715bef37f7e8ef385a30974a5f0d5" name="a2cf715bef37f7e8ef385a30974a5f0d5"></a>
 <a class="el" href="group___u_a_r_t___exported___types.html#ga5de4a49eb132735325e706f406c69d6e">UART_HandleTypeDef</a>&#160;</td><td class="memItemRight" valign="bottom"><b>huart1</b></td></tr>
 <tr class="separator:a2cf715bef37f7e8ef385a30974a5f0d5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a18472f6318b4979228d5264f23b8a88f" id="r_a18472f6318b4979228d5264f23b8a88f"><td class="memItemLeft" align="right" valign="top"><a id="a18472f6318b4979228d5264f23b8a88f" name="a18472f6318b4979228d5264f23b8a88f"></a>
-float&#160;</td><td class="memItemRight" valign="bottom"><b>battery_voltage</b> = 24.0</td></tr>
-<tr class="separator:a18472f6318b4979228d5264f23b8a88f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3e35a666d459f2ac92fc7c35334ff0ff" id="r_a3e35a666d459f2ac92fc7c35334ff0ff"><td class="memItemLeft" align="right" valign="top"><a id="a3e35a666d459f2ac92fc7c35334ff0ff" name="a3e35a666d459f2ac92fc7c35334ff0ff"></a>
+CAN_TxHeaderTypeDef&#160;</td><td class="memItemRight" valign="bottom"><b>TxHeader</b></td></tr>
+<tr class="separator:a3e35a666d459f2ac92fc7c35334ff0ff"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6ee6e13063b860648180eea65852cc71" id="r_a6ee6e13063b860648180eea65852cc71"><td class="memItemLeft" align="right" valign="top"><a id="a6ee6e13063b860648180eea65852cc71" name="a6ee6e13063b860648180eea65852cc71"></a>
+CAN_RxHeaderTypeDef&#160;</td><td class="memItemRight" valign="bottom"><b>RxHeader</b></td></tr>
+<tr class="separator:a6ee6e13063b860648180eea65852cc71"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af553c31425b32bd9c020380c942ed3bd" id="r_af553c31425b32bd9c020380c942ed3bd"><td class="memItemLeft" align="right" valign="top"><a id="af553c31425b32bd9c020380c942ed3bd" name="af553c31425b32bd9c020380c942ed3bd"></a>
+uint8_t&#160;</td><td class="memItemRight" valign="bottom"><b>TxData</b> [8]</td></tr>
+<tr class="separator:af553c31425b32bd9c020380c942ed3bd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aedd1e4ac418a9697f9f41a2713d49569" id="r_aedd1e4ac418a9697f9f41a2713d49569"><td class="memItemLeft" align="right" valign="top"><a id="aedd1e4ac418a9697f9f41a2713d49569" name="aedd1e4ac418a9697f9f41a2713d49569"></a>
+uint32_t&#160;</td><td class="memItemRight" valign="bottom"><b>TxMailbox</b></td></tr>
+<tr class="separator:aedd1e4ac418a9697f9f41a2713d49569"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4876ea4dc6266f1c2d7cef00999c2bf8" id="r_a4876ea4dc6266f1c2d7cef00999c2bf8"><td class="memItemLeft" align="right" valign="top"><a id="a4876ea4dc6266f1c2d7cef00999c2bf8" name="a4876ea4dc6266f1c2d7cef00999c2bf8"></a>
+CAN_FilterTypeDef&#160;</td><td class="memItemRight" valign="bottom"><b>canfil</b></td></tr>
+<tr class="separator:a4876ea4dc6266f1c2d7cef00999c2bf8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a901ae83af291da92679cd83894ce86bd" id="r_a901ae83af291da92679cd83894ce86bd"><td class="memItemLeft" align="right" valign="top"><a id="a901ae83af291da92679cd83894ce86bd" name="a901ae83af291da92679cd83894ce86bd"></a>
+uint32_t&#160;</td><td class="memItemRight" valign="bottom"><b>canMailbox</b></td></tr>
+<tr class="separator:a901ae83af291da92679cd83894ce86bd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a709b70b043cd14b783642bc6cab0a5a5" id="r_a709b70b043cd14b783642bc6cab0a5a5"><td class="memItemLeft" align="right" valign="top"><a id="a709b70b043cd14b783642bc6cab0a5a5" name="a709b70b043cd14b783642bc6cab0a5a5"></a>
+uint8_t&#160;</td><td class="memItemRight" valign="bottom"><b>canRX</b> [8] = {0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0}</td></tr>
+<tr class="separator:a709b70b043cd14b783642bc6cab0a5a5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6b71e3c5cd86d6941c8f4a8beb1b354f" id="r_a6b71e3c5cd86d6941c8f4a8beb1b354f"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6b71e3c5cd86d6941c8f4a8beb1b354f">PUTCHAR_PROTOTYPE</a></td></tr>
+<tr class="memdesc:a6b71e3c5cd86d6941c8f4a8beb1b354f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retargets the C library printf function to the USART.  <br /></td></tr>
+<tr class="separator:a6b71e3c5cd86d6941c8f4a8beb1b354f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0523c05685d59544dca911cb6a3db77d" id="r_a0523c05685d59544dca911cb6a3db77d"><td class="memItemLeft" align="right" valign="top"><a id="a0523c05685d59544dca911cb6a3db77d" name="a0523c05685d59544dca911cb6a3db77d"></a>
+return&#160;</td><td class="memItemRight" valign="bottom"><b>ch</b></td></tr>
+<tr class="separator:a0523c05685d59544dca911cb6a3db77d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>: Main program body </p>
 <dl class="section attention"><dt>Attention</dt><dd></dd></dl>
-<p>Copyright (c) 2024 STMicroelectronics. All rights reserved.</p>
+<p>Copyright (c) 2025 STMicroelectronics. All rights reserved.</p>
 <p>This software is licensed under terms that can be found in the LICENSE file in the root directory of this software component. If no LICENSE file comes with this software, it is provided AS-IS. </p>
 </div><h2 class="groupheader">Function Documentation</h2>
-<a id="a89f20add17ade99e1d26a397690088e3" name="a89f20add17ade99e1d26a397690088e3"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a89f20add17ade99e1d26a397690088e3">&#9670;&#160;</a></span>aux_check()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void aux_check </td>
-          <td>(</td>
-          <td class="paramtype">uint8_t</td>          <td class="paramname"><span class="paramname"><em>current_status</em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Checks to ensure that the aux contactors are in the expected position for the current state. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">current_status</td><td></td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section author"><dt>Author</dt><dd>Peter Woolsey </dd></dl>
-
-</div>
-</div>
-<a id="a5f8f3b29bfcc87734d01297454c416de" name="a5f8f3b29bfcc87734d01297454c416de"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5f8f3b29bfcc87734d01297454c416de">&#9670;&#160;</a></span>discharge_handler()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void discharge_handler </td>
-          <td>(</td>
-          <td class="paramtype">void</td>          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Handles the state transition from OPERATION to STARTUP. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">None</td><td></td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section author"><dt>Author</dt><dd>Peter Woolsey </dd></dl>
-
-</div>
-</div>
 <a id="a1730ffe1e560465665eb47d9264826f9" name="a1730ffe1e560465665eb47d9264826f9"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a1730ffe1e560465665eb47d9264826f9">&#9670;&#160;</a></span>Error_Handler()</h2>
 
@@ -264,56 +195,29 @@ float&#160;</td><td class="memItemRight" valign="bottom"><b>battery_voltage</b> 
 
 </div>
 </div>
-<a id="ad22bdcadc1a930eb626992922c58a005" name="ad22bdcadc1a930eb626992922c58a005"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad22bdcadc1a930eb626992922c58a005">&#9670;&#160;</a></span>get_switch_status()</h2>
+<a id="a27c5aa8d3cd9a3905e327f89470a9c58" name="a27c5aa8d3cd9a3905e327f89470a9c58"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a27c5aa8d3cd9a3905e327f89470a9c58">&#9670;&#160;</a></span>HAL_CAN_RxFifo0MsgPendingCallback()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">uint8_t get_switch_status </td>
+          <td class="memname">void HAL_CAN_RxFifo0MsgPendingCallback </td>
           <td>(</td>
-          <td class="paramtype">void</td>          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td class="paramtype">CAN_HandleTypeDef *</td>          <td class="paramname"><span class="paramname"><em>hcan1</em></span></td><td>)</td>
           <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Gets the switch status through a digital read of the switches' GPIO pins. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
+<p>Print CANBUS Error messages. </p>
+<dl class="section author"><dt>Author</dt><dd>Alex </dd></dl>
+<dl class="retval"><dt>Return values</dt><dd>
+  <table class="retval">
     <tr><td class="paramname">None</td><td></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>uint8-t - a status macro which fits into a uint8-t </dd></dl>
-<dl class="section author"><dt>Author</dt><dd>Peter Woolsey </dd></dl>
-
-</div>
-</div>
-<a id="a535dd3bb5171e1387e3971b3cdbbf2e5" name="a535dd3bb5171e1387e3971b3cdbbf2e5"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a535dd3bb5171e1387e3971b3cdbbf2e5">&#9670;&#160;</a></span>internal_error_handler()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void internal_error_handler </td>
-          <td>(</td>
-          <td class="paramtype">void</td>          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Error handler for error detection in operational logic. Currently implemented as a while(1) loop. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">None</td><td></td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section author"><dt>Author</dt><dd>Peter Woolsey </dd></dl>
 
 </div>
 </div>
@@ -369,119 +273,30 @@ float&#160;</td><td class="memItemRight" valign="bottom"><b>battery_voltage</b> 
 
 </div>
 </div>
-<a id="a0dda2a0dc8bd8a3ce91c01eb26f26013" name="a0dda2a0dc8bd8a3ce91c01eb26f26013"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0dda2a0dc8bd8a3ce91c01eb26f26013">&#9670;&#160;</a></span>toggle_charging()</h2>
+<h2 class="groupheader">Variable Documentation</h2>
+<a id="a6b71e3c5cd86d6941c8f4a8beb1b354f" name="a6b71e3c5cd86d6941c8f4a8beb1b354f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6b71e3c5cd86d6941c8f4a8beb1b354f">&#9670;&#160;</a></span>PUTCHAR_PROTOTYPE</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void toggle_charging </td>
-          <td>(</td>
-          <td class="paramtype">void</td>          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
-          <td></td>
+          <td class="memname">PUTCHAR_PROTOTYPE</td>
         </tr>
       </table>
 </div><div class="memdoc">
-
-<p>Responsible from switching from STARTUP to CHARGING. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
+<b>Initial value:</b><div class="fragment"><div class="line">{</div>
+<div class="line">   </div>
+<div class="line">   </div>
+<div class="line">   HAL_UART_Transmit(&amp;huart1, (uint8_t *)&amp;ch, 1, 0xFFFF)</div>
+</div><!-- fragment -->
+<p>Retargets the C library printf function to the USART. </p>
+<dl class="retval"><dt>Return values</dt><dd>
+  <table class="retval">
     <tr><td class="paramname">None</td><td></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section author"><dt>Author</dt><dd>Peter Woolsey </dd></dl>
-
-</div>
-</div>
-<a id="a9fa17fef276cfdbebf19e5e6e7c9ad23" name="a9fa17fef276cfdbebf19e5e6e7c9ad23"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9fa17fef276cfdbebf19e5e6e7c9ad23">&#9670;&#160;</a></span>toggle_precharge()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void toggle_precharge </td>
-          <td>(</td>
-          <td class="paramtype">void</td>          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Handles the change of state from STARTUP to OPERATION. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">None</td><td></td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section author"><dt>Author</dt><dd>Peter Woolsey </dd></dl>
-
-</div>
-</div>
-<a id="a11b88bb4dec76d19818ff90e750d61d6" name="a11b88bb4dec76d19818ff90e750d61d6"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a11b88bb4dec76d19818ff90e750d61d6">&#9670;&#160;</a></span>untoggle_charging()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void untoggle_charging </td>
-          <td>(</td>
-          <td class="paramtype">void</td>          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Responsible from switching from CHARGING to STARTUP. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">None</td><td></td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section author"><dt>Author</dt><dd>Peter Woolsey </dd></dl>
-
-</div>
-</div>
-<a id="a3da3d43c7ba9d42b1cd7b962559de340" name="a3da3d43c7ba9d42b1cd7b962559de340"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3da3d43c7ba9d42b1cd7b962559de340">&#9670;&#160;</a></span>vsense()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">int vsense </td>
-          <td>(</td>
-          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>mode</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">uint16_t</td>          <td class="paramname"><span class="paramname"><em>vsense_target</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>num_tries</em></span>&#160;)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Checks the precharge voltage until voltage threshold is reached a certain number of times. If max tries is reached, the error handler is called. MODE is either DISCHARGE OR PRECHARGE. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">vsense_target</td><td>target threshold </td></tr>
-    <tr><td class="paramname">num_tries</td><td>number of vsense read attempts </td></tr>
-    <tr><td class="paramname">MODE</td><td>either PRECHARGE or DISCHARGE </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>1 if target is reached. 0 if num_tries is exceeded. </dd></dl>
-<dl class="section author"><dt>Author</dt><dd>Alex Martinez </dd></dl>
 
 </div>
 </div>

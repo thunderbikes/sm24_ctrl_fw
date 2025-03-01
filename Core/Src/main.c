@@ -6,7 +6,7 @@
   ******************************************************************************
   * @attention
   *
-  * Copyright (c) 2024 STMicroelectronics.
+  * Copyright (c) 2025 STMicroelectronics.
   * All rights reserved.
   *
   * This software is licensed under terms that can be found in the LICENSE file
@@ -21,6 +21,7 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
+#include <stdio.h>
 
 /* USER CODE END Includes */
 
@@ -31,17 +32,9 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
-// using constants to represent state as int
-#define STARTUP 0
-#define OPERATION 1
-#define CHARGING 2
-#define ERROR 3
 
-#define PRECHARGE 1
-#define DISCHARGE 2
+#define PUTCHAR_PROTOTYPE int __io_putchar(int ch)
 
-#define AUX_SET_DELAY 300
-#define DISCHARGE_THRESHOLD 200 // 4095 * V(target voltage) / 103.6
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -58,8 +51,16 @@ CAN_HandleTypeDef hcan1;
 UART_HandleTypeDef huart1;
 
 /* USER CODE BEGIN PV */
-// only until CANBUS is implemented
-float battery_voltage = 24.0;
+
+CAN_TxHeaderTypeDef   TxHeader;
+CAN_RxHeaderTypeDef   RxHeader; //CAN Bus Transmit Header
+uint8_t               TxData[8];
+uint32_t              TxMailbox;
+CAN_FilterTypeDef canfil; //CAN Bus Filter
+uint32_t canMailbox; //CAN Bus Mail box variable
+
+uint8_t canRX[8] = {0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0}; //CAN Bus Receive Buffer
+
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -71,240 +72,12 @@ static void MX_CAN1_Init(void);
 static void MX_USART1_UART_Init(void);
 /* USER CODE BEGIN PFP */
 
+
+
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-/**
- * @brief   Error handler for error detection in operational logic. Currently implemented as a while(1) loop.
- * @param   None
- * @author  Peter Woolsey
- */
-void internal_error_handler(void)
-{
-  HAL_GPIO_WritePin(DEBUG_1_GPIO_Port, DEBUG_1_Pin, GPIO_PIN_RESET);
-  HAL_GPIO_WritePin(DEBUG_2_GPIO_Port, DEBUG_2_Pin, GPIO_PIN_RESET);
-  HAL_GPIO_WritePin(MCU_OK_GPIO_Port, MCU_OK_Pin, GPIO_PIN_RESET);
-  // close all relays
-  HAL_GPIO_WritePin(HVCP_EN_GPIO_Port,HVCP_EN_Pin, GPIO_PIN_RESET);
-  HAL_GPIO_WritePin(HVCN_EN_GPIO_Port,HVCN_EN_Pin, GPIO_PIN_RESET);
-  HAL_GPIO_WritePin(PRECHRG_EN_GPIO_Port,PRECHRG_EN_Pin, GPIO_PIN_RESET);
-  HAL_GPIO_WritePin(CHRGP_EN_GPIO_Port,CHRGP_EN_Pin, GPIO_PIN_RESET);
-  HAL_GPIO_WritePin(CHRGN_EN_GPIO_Port,CHRGN_EN_Pin, GPIO_PIN_RESET);
-  // comms over canbus of what the error was?
-  while (1)
-  { // freeze everything off
-    HAL_Delay(500);
-  }
-  return;
-}
-
-/**
- * @brief   Checks the precharge voltage until voltage threshold is reached a certain number of times. If max tries is reached, the error handler is called. MODE is either DISCHARGE OR PRECHARGE. 
- * @param   vsense_target target threshold
- * @param   num_tries number of vsense read attempts
- * @param   MODE either PRECHARGE or DISCHARGE
- * @returns 1 if target is reached. 0 if num_tries is exceeded. 
- * @author  Alex Martinez
- */
-int vsense(int mode, uint16_t vsense_target, int num_tries)
-{
-    int i=0;
-    uint16_t value_adc;
-    while(i<num_tries)
-    {
-    HAL_GPIO_TogglePin(DEBUG_1_GPIO_Port, DEBUG_1_Pin); //LED1 will flash 
-
-    HAL_ADC_Start(&hadc1); //Needs to be called every time
-    HAL_ADC_PollForConversion(&hadc1, HAL_MAX_DELAY);
-    value_adc = HAL_ADC_GetValue(&hadc1);
-
-    if(mode == PRECHARGE){ //PRECHARGE vsense logic 
-      if (value_adc > vsense_target) { 
-        HAL_GPIO_WritePin(DEBUG_2_GPIO_Port, DEBUG_2_Pin, GPIO_PIN_SET); //LED2
-        return 1;
-      } else {
-        HAL_GPIO_WritePin(DEBUG_2_GPIO_Port, DEBUG_2_Pin, GPIO_PIN_RESET); //LED2
-      }
-    } else if (mode == DISCHARGE){ //DISCHARGE vsense logic 
-        if (value_adc < vsense_target) { 
-        HAL_GPIO_WritePin(DEBUG_2_GPIO_Port, DEBUG_2_Pin, GPIO_PIN_SET); //LED2
-        return 1;
-      } else {
-        HAL_GPIO_WritePin(DEBUG_2_GPIO_Port, DEBUG_2_Pin, GPIO_PIN_RESET); //LED2
-      }
-    } else {
-      internal_error_handler();
-    }
-    HAL_Delay(50);
-    i++;
-    }
-
-  return 0; //num_tries exceeded
-}
-
-/**
- * @brief Handles the state transition from OPERATION to STARTUP
- * @param  None
- * @author Peter Woolsey
- */
-void discharge_handler(void)
-{
-  /*
-   Insert code for checking that aux opened
-  */
-  HAL_GPIO_WritePin(HVCP_EN_GPIO_Port,HVCP_EN_Pin, GPIO_PIN_RESET);
-  HAL_GPIO_WritePin(HVCN_EN_GPIO_Port,HVCN_EN_Pin, GPIO_PIN_RESET);
-  // actually discharge the board
-  HAL_Delay(AUX_SET_DELAY);
-  
-  if (HAL_GPIO_ReadPin(HVCN_AUX_GPIO_Port, HVCN_AUX_Pin) == GPIO_PIN_SET || HAL_GPIO_ReadPin(HVCP_AUX_GPIO_Port, HVCP_AUX_Pin) == GPIO_PIN_SET){
-    internal_error_handler();
-  }
-
-  HAL_GPIO_WritePin(MCU_OK_GPIO_Port, MCU_OK_Pin, GPIO_PIN_RESET);
-
-  uint16_t vsense_target = DISCHARGE_THRESHOLD; 
-  int num_tries = 100; // 50ms delay * num_tries = max time in vsense
-  
-  if(!vsense(DISCHARGE, vsense_target, num_tries)){ //vsense has its own loop based on num_tries. Returns 0 if tries are exceeded. 
-    internal_error_handler();
-  }
-  HAL_GPIO_WritePin(MCU_OK_GPIO_Port, MCU_OK_Pin, GPIO_PIN_SET);
-
-  // LED demo code
-  HAL_GPIO_WritePin(DEBUG_1_GPIO_Port, DEBUG_1_Pin, GPIO_PIN_RESET);
-  return;
-}
-
-
-
- 
-/**
- * @brief   Handles the change of state from STARTUP to OPERATION
- * @param   None
- * @author  Peter Woolsey
- */
-void toggle_precharge(void)
-{
-  HAL_GPIO_WritePin(HVCN_EN_GPIO_Port,HVCN_EN_Pin, GPIO_PIN_SET);
-  HAL_GPIO_WritePin(PRECHRG_EN_GPIO_Port,PRECHRG_EN_Pin, GPIO_PIN_SET);
-
-  HAL_Delay(AUX_SET_DELAY);
-
-  if (HAL_GPIO_ReadPin(HVCN_AUX_GPIO_Port, HVCN_AUX_Pin) == GPIO_PIN_RESET || HAL_GPIO_ReadPin(PRECHRG_AUX_GPIO_Port, PRECHRG_AUX_Pin) == GPIO_PIN_RESET){
-    internal_error_handler();
-  }
-
-  HAL_GPIO_WritePin(DEBUG_1_GPIO_Port, DEBUG_1_Pin, GPIO_PIN_SET);
-  uint16_t vsense_target = battery_voltage *  35.5743243243; // 4095 / 103.6 * 0.9
-
-  int num_tries = 100; // 500ms delay * num_tries = max time in vsense
-  
-  if(!vsense(PRECHARGE, vsense_target, num_tries)){ //vsense has its own loop based on num_tries. Returns 0 if tries are exceeded. 
-    internal_error_handler();
-  }
-
-  HAL_GPIO_WritePin(HVCP_EN_GPIO_Port,HVCP_EN_Pin, GPIO_PIN_SET);
-  HAL_Delay(1000);
-  HAL_GPIO_WritePin(PRECHRG_EN_GPIO_Port,PRECHRG_EN_Pin, GPIO_PIN_RESET);
-  
-  HAL_Delay(AUX_SET_DELAY);
-  
-  if (HAL_GPIO_ReadPin(HVCN_AUX_GPIO_Port, HVCN_AUX_Pin) == GPIO_PIN_RESET || HAL_GPIO_ReadPin(HVCP_AUX_GPIO_Port, HVCP_AUX_Pin) == GPIO_PIN_RESET){
-    internal_error_handler();
-  }
-  // LED demo code
-  HAL_GPIO_WritePin(DEBUG_1_GPIO_Port, DEBUG_1_Pin, GPIO_PIN_SET);
-  HAL_GPIO_WritePin(DEBUG_2_GPIO_Port, DEBUG_2_Pin, GPIO_PIN_RESET);
-  return;
-}
-
-/**
- * @brief   Responsible from switching from STARTUP to CHARGING
- * @param   None
- * @author  Peter Woolsey
- */
-void toggle_charging(void)
-{
-  HAL_GPIO_WritePin(CHRGP_EN_GPIO_Port,CHRGP_EN_Pin, GPIO_PIN_SET);
-  HAL_GPIO_WritePin(CHRGN_EN_GPIO_Port,CHRGN_EN_Pin, GPIO_PIN_SET);
-  HAL_GPIO_WritePin(DEBUG_2_GPIO_Port, DEBUG_2_Pin, GPIO_PIN_SET);
-  return;
-}
-
-/**
- * @brief   Responsible from switching from CHARGING to STARTUP
- * @param   None
- * @author  Peter Woolsey
- */
-void untoggle_charging(void)
-{
-  HAL_GPIO_WritePin(CHRGP_EN_GPIO_Port,CHRGP_EN_Pin, GPIO_PIN_RESET);
-  HAL_GPIO_WritePin(CHRGN_EN_GPIO_Port,CHRGN_EN_Pin, GPIO_PIN_RESET);
-  HAL_GPIO_WritePin(DEBUG_2_GPIO_Port, DEBUG_2_Pin, GPIO_PIN_RESET);
-  return;
-}
-
-/**
- * @brief   Gets the switch status through a digital read of the switches' GPIO pins.
- * @param   None
- * @return  uint8-t - a status macro which fits into a uint8-t
- * @author  Peter Woolsey
- */
-uint8_t get_switch_status(void)
-{
-  if (HAL_GPIO_ReadPin(IGNITION_SW_GPIO_Port, IGNITION_SW_Pin) == GPIO_PIN_SET)
-  {
-    if (HAL_GPIO_ReadPin(CHARGE_SW_GPIO_Port, CHARGE_SW_Pin) == GPIO_PIN_SET)
-    {
-      return ERROR;
-    }
-    else
-    {
-      return OPERATION;
-    }
-  }
-  else
-  {
-    if (HAL_GPIO_ReadPin(CHARGE_SW_GPIO_Port, CHARGE_SW_Pin) == GPIO_PIN_SET)
-    {
-      return CHARGING;
-    }
-    else
-    {
-      return STARTUP;
-    }
-  }
-  return ERROR;
-}
-
-/**
- * @brief   Checks to ensure that the aux contactors are in the expected position for the current state. 
- * @param   current_status 
- * @author  Peter Woolsey
- */
-void aux_check(uint8_t current_status)
-{
-  if (HAL_GPIO_ReadPin(PRECHRG_AUX_GPIO_Port, PRECHRG_AUX_Pin) == GPIO_PIN_SET){
-    internal_error_handler();
-  }
-  if (current_status == OPERATION){
-    if (HAL_GPIO_ReadPin(HVCP_AUX_GPIO_Port, HVCP_AUX_Pin) == GPIO_PIN_RESET || HAL_GPIO_ReadPin(HVCN_AUX_GPIO_Port, HVCN_AUX_Pin) == GPIO_PIN_RESET){
-      internal_error_handler();
-    } 
-  } else {
-    if (HAL_GPIO_ReadPin(HVCP_AUX_GPIO_Port, HVCP_AUX_Pin) == GPIO_PIN_SET || HAL_GPIO_ReadPin(HVCN_AUX_GPIO_Port, HVCN_AUX_Pin) == GPIO_PIN_SET){
-      internal_error_handler();
-    } 
-  }
-  HAL_Delay(100);
-  return;
-  // placeholder
-}
-
-
-
 
 /* USER CODE END 0 */
 
@@ -342,78 +115,38 @@ int main(void)
   MX_CAN1_Init();
   MX_USART1_UART_Init();
   /* USER CODE BEGIN 2 */
-  // Setup
-  uint8_t status = STARTUP;
-  uint8_t new_status;
-  
-  HAL_Delay(500);
-  HAL_GPIO_WritePin(MCU_OK_GPIO_Port, MCU_OK_Pin, GPIO_PIN_SET);
+  canfil.FilterBank = 0;
+  canfil.FilterMode = CAN_FILTERMODE_IDMASK;
+  canfil.FilterFIFOAssignment = CAN_RX_FIFO0;
+  canfil.FilterIdHigh = 0;
+  canfil.FilterIdLow = 0;
+  canfil.FilterMaskIdHigh = 0;
+  canfil.FilterMaskIdLow = 0;
+  canfil.FilterScale = CAN_FILTERSCALE_32BIT;
+  canfil.FilterActivation = ENABLE;
+  canfil.SlaveStartFilterBank = 14;
+
+  HAL_CAN_ConfigFilter(&hcan1,&canfil);
+  HAL_CAN_Start(&hcan1);
+  HAL_CAN_ActivateNotification(&hcan1,CAN_IT_RX_FIFO0_MSG_PENDING);
+
+  if (HAL_CAN_ActivateNotification(&hcan1, CAN_IT_RX_FIFO0_MSG_PENDING) != HAL_OK)
+  {
+	  Error_Handler();
+  }
+
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-    new_status = get_switch_status();
-    if (new_status == ERROR)
-    {
-      internal_error_handler();
-    }
-
-    if (new_status != status)
-    { // handles change of switch state
-      if (status == STARTUP)
-      { // where can you go from startup:
-        if (new_status == OPERATION)
-        {
-          toggle_precharge();
-          status = OPERATION;
-        }
-        else if (new_status == CHARGING)
-        {
-          toggle_charging();
-          status = CHARGING;
-        }
-        else
-        {
-          internal_error_handler(); // should never reach here
-        }
-      }
-      else if (status == OPERATION)
-      { // where can you go from operation:
-        if (new_status == STARTUP)
-        {
-          discharge_handler();
-          status = STARTUP;
-        }
-        else
-        {
-          internal_error_handler(); // should never reach here
-        }
-      }
-      else if (status == CHARGING)
-      { // where can you go from operation:
-        if (new_status == STARTUP)
-        {
-          untoggle_charging();
-          status = STARTUP;
-        }
-        else
-        {
-          internal_error_handler(); // should never reach here
-        }
-      }
-      else
-      {
-        status = ERROR;
-        internal_error_handler();
-      }
-    }
-
-    aux_check(status); // to be implemented
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
+    // HAL_GPIO_TogglePin(DEBUG_1_GPIO_Port, DEBUG_1_Pin); 
+    // printf("Test\n");
+    // HAL_Delay(100);
   }
   /* USER CODE END 3 */
 }
@@ -580,13 +313,13 @@ static void MX_CAN1_Init(void)
   hcan1.Instance = CAN1;
   hcan1.Init.Prescaler = 16;
   hcan1.Init.Mode = CAN_MODE_NORMAL;
-  hcan1.Init.SyncJumpWidth = CAN_SJW_1TQ;
-  hcan1.Init.TimeSeg1 = CAN_BS1_1TQ;
+  hcan1.Init.SyncJumpWidth = CAN_SJW_2TQ;
+  hcan1.Init.TimeSeg1 = CAN_BS1_4TQ;
   hcan1.Init.TimeSeg2 = CAN_BS2_1TQ;
   hcan1.Init.TimeTriggeredMode = DISABLE;
   hcan1.Init.AutoBusOff = DISABLE;
   hcan1.Init.AutoWakeUp = DISABLE;
-  hcan1.Init.AutoRetransmission = DISABLE;
+  hcan1.Init.AutoRetransmission = ENABLE;
   hcan1.Init.ReceiveFifoLocked = DISABLE;
   hcan1.Init.TransmitFifoPriority = DISABLE;
   if (HAL_CAN_Init(&hcan1) != HAL_OK)
@@ -711,6 +444,140 @@ static void MX_GPIO_Init(void)
 }
 
 /* USER CODE BEGIN 4 */
+
+/**
+  * @brief  Retargets the C library printf function to the USART.
+  * @retval None
+  */
+ PUTCHAR_PROTOTYPE
+ {
+   /* Place your implementation of fputc here */
+   /* e.g. write a character to the USART1 and Loop until the end of transmission */
+   HAL_UART_Transmit(&huart1, (uint8_t *)&ch, 1, 0xFFFF);
+ 
+   return ch;
+ }
+
+ /**
+  * @brief Print CANBUS Error messages 
+  * @author Alex
+  * @retval None
+  */
+void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan1)
+{
+    if (HAL_CAN_GetRxMessage(hcan1, CAN_RX_FIFO0, &RxHeader, canRX) != HAL_OK)
+    {
+        printf("CAN Message Read Failed. HAL ERROR... \r\n");
+        return;
+    }
+    else
+    {
+        HAL_GPIO_TogglePin(DEBUG_1_GPIO_Port, DEBUG_1_Pin);
+        if (RxHeader.IDE == CAN_ID_STD)
+        {
+            printf("Message has standard ID type...\r\n");
+            printf("Message ID:\t%#lx\r\n", RxHeader.StdId);
+
+            if(RxHeader.StdId == 0x6B0){ // BMS
+              uint16_t pack_current     = (canRX[1] << 8) | canRX[0];
+              uint16_t pack_voltage     = (canRX[3] << 8) | canRX[2];
+              uint8_t pack_soc          = canRX[4];
+              uint8_t pack_relay_state  = canRX[5];
+
+              printf("Pack Current: %d\r\n", pack_current);
+              printf("Pack Voltage: %d\r\n", pack_voltage);
+              printf("Pack SoC: %d\r\n", pack_soc);
+              printf("Pack Relay Status: %d\r\n", pack_relay_state);
+
+            }
+            else if(RxHeader.StdId == 0x6B1){ // BMS
+              uint32_t pack_DCL = (canRX[3]<<24) | (canRX[2]<<16) | (canRX[1]<<8) | canRX[0];
+              uint8_t high_temp_derating = canRX[4];
+              uint8_t low_temp_derating   = canRX[5];
+
+              printf("Pack DCL: %d\r\n", pack_DCL);
+              printf("High Temp Derating: %d\r\n", high_temp_derating);
+              printf("low_temp_derating: %d\r\n", low_temp_derating);
+            }
+            else
+            {
+            printf("ERROR: Unknown IDE type\r\n");
+            return;
+            }
+        }
+        else if (RxHeader.IDE == CAN_ID_EXT)
+        {
+            printf("Message has extended ID type...\r\n");
+            printf("Message ID:\t%#lx\r\n", RxHeader.ExtId);
+
+            if (RxHeader.ExtId == 0x0CF11E05)
+            {
+                uint16_t RPM = (canRX[1] << 8) | canRX[0];
+                uint16_t Current = (canRX[3] << 8) | canRX[2];
+                uint16_t Voltage = (canRX[5] << 8) | canRX[4];
+
+                printf("R  P  M = %u rpm\r\n", RPM);
+                printf("Current = %u A\r\n", Current/ 10);
+                printf("Voltage = %u V\r\n", Voltage / 10);
+
+                
+            }
+          
+            else if (RxHeader.ExtId == 0x0CF11F05)
+            {
+                
+                uint8_t throttle_signal = canRX[0];
+                int8_t controller_temp = canRX[1] - 40; 
+                int8_t motor_temp = canRX[2] - 30; 
+                printf("Throttle Signal: %d V\r\n", throttle_signal);
+                printf("Controller Temperature: %d ℃\r\n", controller_temp);
+                printf("Motor Temperature: %d ℃\r\n", motor_temp);
+
+               
+                if (canRX[4] & 0x01)
+                    printf("Controller Command: Forward\r\n");
+                else if (canRX[4] & 0x02)
+                    printf("Controller Command: Backward\r\n");
+                else if (canRX[4] & 0x03)
+                    printf("Controller Command: Reserved\r\n");
+                else printf("Controller Command: Neutral\r\n");
+
+                if (((canRX[4] >> 2) & 0x03 )== 0x00)
+                    printf("Feedback: Stationary\r\n");
+                else if (((canRX[4] >> 2) & 0x03 ) == 0x01)
+                    printf("Feedback: Forward\r\n");
+                else if (((canRX[4] >> 2) & 0x03 ) == 0x02)
+                    printf("Feedback: Backward\r\n");
+                else
+                    printf("Feedback: Reserved\r\n");
+
+                printf("Switch Status:\r\n");
+                printf("  Boost: %s\r\n", (canRX[5] & 0x80) ? "ON" : "OFF");
+                printf("  Foot Switch: %s\r\n", (canRX[5] & 0x40) ? "ON" : "OFF");
+                printf("  Forward Switch: %s\r\n", (canRX[5] & 0x20) ? "ON" : "OFF");
+                printf("  Backward Switch: %s\r\n", (canRX[5] & 0x10) ? "ON" : "OFF");
+                printf("  12V Brake Switch: %s\r\n", (canRX[5] & 0x08) ? "ON" : "OFF");
+                printf("  Hall C: %s\r\n", (canRX[5] & 0x04) ? "ON" : "OFF");
+                printf("  Hall B: %s\r\n", (canRX[5] & 0x02) ? "ON" : "OFF");
+                printf("  Hall A: %s\r\n", (canRX[5] & 0x01) ? "ON" : "OFF");
+            }
+        }
+        else
+        {
+            printf("ERROR: Unknown IDE type\r\n");
+            return;
+        }
+
+    
+        printf("Message length is %ld byte(s)\r\n", RxHeader.DLC);
+        for (uint8_t i = 0; i < 8; i++)
+        {
+            printf("Byte %d: 0x%02X\r\n", i, canRX[i]);
+        }
+    }
+}
+
+
 
 /* USER CODE END 4 */
 

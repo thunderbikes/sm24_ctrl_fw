@@ -596,6 +596,5 @@ var searchData=
   ['arm_5fmpu_5fregion_5ft_593',['ARM_MPU_Region_t',['../struct_a_r_m___m_p_u___region__t.html',1,'']]],
   ['arr_594',['ARR',['../struct_t_i_m___type_def.html#a6a42766a6ca3c7fe10a810ebd6b9d627',1,'TIM_TypeDef']]],
   ['assert_5fparam_595',['assert_param',['../stm32f2xx__hal__conf_8h.html#a631dea7b230e600555f979c62af1de21',1,'stm32f2xx_hal_conf.h']]],
-  ['autoinjectedconv_596',['AutoInjectedConv',['../struct_a_d_c___injection_conf_type_def.html#a39b2ddf75be46eb2d474e261e7b1c875',1,'ADC_InjectionConfTypeDef']]],
-  ['aux_5fcheck_597',['aux_check',['../main_8c.html#a89f20add17ade99e1d26a397690088e3',1,'main.c']]]
+  ['autoinjectedconv_596',['AutoInjectedConv',['../struct_a_d_c___injection_conf_type_def.html#a39b2ddf75be46eb2d474e261e7b1c875',1,'ADC_InjectionConfTypeDef']]]
 ];

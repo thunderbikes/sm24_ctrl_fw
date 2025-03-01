@@ -8,6 +8,5 @@ var searchData=
   ['vectored_20interrupt_20controller_20nvic_5',['Nested Vectored Interrupt Controller (NVIC)',['../group___c_m_s_i_s___n_v_i_c.html',1,'']]],
   ['voltage_20range_6',['FLASH Voltage Range',['../group___f_l_a_s_h_ex___voltage___range.html',1,'']]],
   ['voltagerange_7',['VoltageRange',['../struct_f_l_a_s_h___erase_init_type_def.html#a3a2a0c2c4ed573bb84c768c6dbb92cc9',1,'FLASH_EraseInitTypeDef']]],
-  ['vsense_8',['vsense',['../main_8c.html#a3da3d43c7ba9d42b1cd7b962559de340',1,'main.c']]],
-  ['vtor_9',['VTOR',['../group___c_m_s_i_s__core___debug_functions.html#ga187a4578e920544ed967f98020fb8170',1,'SCB_Type']]]
+  ['vtor_8',['VTOR',['../group___c_m_s_i_s__core___debug_functions.html#ga187a4578e920544ed967f98020fb8170',1,'SCB_Type']]]
 ];
