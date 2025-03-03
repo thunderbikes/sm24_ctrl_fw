@@ -42,7 +42,7 @@
 
 #define AUX_SET_DELAY 300
 #define DISCHARGE_THRESHOLD 200 // 4095 * V(target voltage) / 103.6
-#define VOLTAGE_THRESHOLD 40 
+#define VOLTAGE_THRESHOLD 40
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -53,6 +53,7 @@
 /* Private variables ---------------------------------------------------------*/
 ADC_HandleTypeDef hadc1;
 ADC_HandleTypeDef hadc2;
+ADC_HandleTypeDef hadc3;
 
 CAN_HandleTypeDef hcan1;
 
@@ -60,16 +61,17 @@ UART_HandleTypeDef huart1;
 
 /* USER CODE BEGIN PV */
 
-volatile float global_battery_voltage = 0xFFFF; 
+volatile float global_battery_voltage = 0xFFFF;
 
-CAN_TxHeaderTypeDef   TxHeader;
-CAN_RxHeaderTypeDef   RxHeader; //CAN Bus Transmit Header
-uint8_t               TxData[8];
-uint32_t              TxMailbox;
-CAN_FilterTypeDef canfil; //CAN Bus Filter
-uint32_t canMailbox; //CAN Bus Mail box variable
+CAN_TxHeaderTypeDef TxHeader;
+CAN_RxHeaderTypeDef RxHeader; // CAN Bus Transmit Header
+uint8_t TxData[8];
+uint32_t TxMailbox;
+CAN_FilterTypeDef canfil; // CAN Bus Filter
+uint32_t canMailbox;      // CAN Bus Mail box variable
 
-uint8_t canRX[8] = {0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0}; //CAN Bus Receive Buffer
+uint8_t canRX[8] = {0x0, 0x0, 0x0, 0x0,
+                    0x0, 0x0, 0x0, 0x0}; // CAN Bus Receive Buffer
 
 /* USER CODE END PV */
 
@@ -80,6 +82,7 @@ static void MX_ADC1_Init(void);
 static void MX_ADC2_Init(void);
 static void MX_CAN1_Init(void);
 static void MX_USART1_UART_Init(void);
+static void MX_ADC3_Init(void);
 /* USER CODE BEGIN PFP */
 #define PUTCHAR_PROTOTYPE int __io_putchar(int ch)
 /* USER CODE END PFP */
@@ -116,7 +119,8 @@ void internal_error_handler(void) {
  * certain number of times. If max tries is reached, the error handler is
  * called. MODE is either DISCHARGE OR PRECHARGE.
  * @param   vsense_target target threshold
- * @param   num_tries number of vsense read attempts. Delay is 50ms so each try adds 50ms. 
+ * @param   num_tries number of vsense read attempts. Delay is 50ms so each try
+ * adds 50ms.
  * @param   MODE either PRECHARGE or DISCHARGE
  * @returns 1 if target is reached. 0 if num_tries is exceeded.
  * @author  Alex Martinez
@@ -125,12 +129,25 @@ int vsense(int mode, uint16_t vsense_target, int num_tries) {
   printf("in vsense...\r\n");
   int i = 0;
   uint16_t value_adc;
+  uint16_t high_value_adc;
+  uint16_t low_value_adc;
   while (i < num_tries) {
     HAL_GPIO_TogglePin(DEBUG_1_GPIO_Port, DEBUG_1_Pin); // LED1 will flash
-
+    // read vsense_p
     HAL_ADC_Start(&hadc1); // Needs to be called every time
     HAL_ADC_PollForConversion(&hadc1, HAL_MAX_DELAY);
-    value_adc = HAL_ADC_GetValue(&hadc1);
+    high_value_adc = HAL_ADC_GetValue(&hadc1);
+    printf("high adc_value:%i\r\n", high_value_adc);
+    // read vsense_n
+    HAL_ADC_Start(&hadc2); // Needs to be called every time
+    HAL_ADC_PollForConversion(&hadc2, HAL_MAX_DELAY);
+    low_value_adc = HAL_ADC_GetValue(&hadc2);
+    printf("low adc_value:%i\r\n", low_value_adc);
+    if (high_value_adc < low_value_adc) {
+      value_adc = 0;
+    } else {
+      value_adc = high_value_adc - low_value_adc;
+    }
 
     if (mode == PRECHARGE) { // PRECHARGE vsense logic
       if (value_adc > vsense_target) {
@@ -351,6 +368,7 @@ int main(void)
   MX_ADC2_Init();
   MX_CAN1_Init();
   MX_USART1_UART_Init();
+  MX_ADC3_Init();
   /* USER CODE BEGIN 2 */
   // Setup
   uint8_t status = STARTUP;
@@ -367,13 +385,13 @@ int main(void)
   canfil.FilterActivation = ENABLE;
   canfil.SlaveStartFilterBank = 14;
 
-  HAL_CAN_ConfigFilter(&hcan1,&canfil);
+  HAL_CAN_ConfigFilter(&hcan1, &canfil);
   HAL_CAN_Start(&hcan1);
-  HAL_CAN_ActivateNotification(&hcan1,CAN_IT_RX_FIFO0_MSG_PENDING);
+  HAL_CAN_ActivateNotification(&hcan1, CAN_IT_RX_FIFO0_MSG_PENDING);
 
-  if (HAL_CAN_ActivateNotification(&hcan1, CAN_IT_RX_FIFO0_MSG_PENDING) != HAL_OK)
-  {
-	  Error_Handler();
+  if (HAL_CAN_ActivateNotification(&hcan1, CAN_IT_RX_FIFO0_MSG_PENDING) !=
+      HAL_OK) {
+    Error_Handler();
   }
 
   HAL_Delay(500);
@@ -490,7 +508,7 @@ static void MX_ADC1_Init(void)
   /** Configure the global features of the ADC (Clock, Resolution, Data Alignment and number of conversion)
   */
   hadc1.Instance = ADC1;
-  hadc1.Init.ClockPrescaler = ADC_CLOCK_SYNC_PCLK_DIV4;
+  hadc1.Init.ClockPrescaler = ADC_CLOCK_SYNC_PCLK_DIV2;
   hadc1.Init.Resolution = ADC_RESOLUTION_12B;
   hadc1.Init.ScanConvMode = DISABLE;
   hadc1.Init.ContinuousConvMode = DISABLE;
@@ -508,7 +526,7 @@ static void MX_ADC1_Init(void)
 
   /** Configure for the selected ADC regular channel its corresponding rank in the sequencer and its sample time.
   */
-  sConfig.Channel = ADC_CHANNEL_0;
+  sConfig.Channel = ADC_CHANNEL_4;
   sConfig.Rank = 1;
   sConfig.SamplingTime = ADC_SAMPLETIME_3CYCLES;
   if (HAL_ADC_ConfigChannel(&hadc1, &sConfig) != HAL_OK)
@@ -542,7 +560,7 @@ static void MX_ADC2_Init(void)
   /** Configure the global features of the ADC (Clock, Resolution, Data Alignment and number of conversion)
   */
   hadc2.Instance = ADC2;
-  hadc2.Init.ClockPrescaler = ADC_CLOCK_SYNC_PCLK_DIV4;
+  hadc2.Init.ClockPrescaler = ADC_CLOCK_SYNC_PCLK_DIV2;
   hadc2.Init.Resolution = ADC_RESOLUTION_12B;
   hadc2.Init.ScanConvMode = DISABLE;
   hadc2.Init.ContinuousConvMode = DISABLE;
@@ -560,7 +578,7 @@ static void MX_ADC2_Init(void)
 
   /** Configure for the selected ADC regular channel its corresponding rank in the sequencer and its sample time.
   */
-  sConfig.Channel = ADC_CHANNEL_1;
+  sConfig.Channel = ADC_CHANNEL_5;
   sConfig.Rank = 1;
   sConfig.SamplingTime = ADC_SAMPLETIME_3CYCLES;
   if (HAL_ADC_ConfigChannel(&hadc2, &sConfig) != HAL_OK)
@@ -570,6 +588,58 @@ static void MX_ADC2_Init(void)
   /* USER CODE BEGIN ADC2_Init 2 */
 
   /* USER CODE END ADC2_Init 2 */
+
+}
+
+/**
+  * @brief ADC3 Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_ADC3_Init(void)
+{
+
+  /* USER CODE BEGIN ADC3_Init 0 */
+
+  /* USER CODE END ADC3_Init 0 */
+
+  ADC_ChannelConfTypeDef sConfig = {0};
+
+  /* USER CODE BEGIN ADC3_Init 1 */
+
+  /* USER CODE END ADC3_Init 1 */
+
+  /** Configure the global features of the ADC (Clock, Resolution, Data Alignment and number of conversion)
+  */
+  hadc3.Instance = ADC3;
+  hadc3.Init.ClockPrescaler = ADC_CLOCK_SYNC_PCLK_DIV2;
+  hadc3.Init.Resolution = ADC_RESOLUTION_12B;
+  hadc3.Init.ScanConvMode = DISABLE;
+  hadc3.Init.ContinuousConvMode = DISABLE;
+  hadc3.Init.DiscontinuousConvMode = DISABLE;
+  hadc3.Init.ExternalTrigConvEdge = ADC_EXTERNALTRIGCONVEDGE_NONE;
+  hadc3.Init.ExternalTrigConv = ADC_SOFTWARE_START;
+  hadc3.Init.DataAlign = ADC_DATAALIGN_RIGHT;
+  hadc3.Init.NbrOfConversion = 1;
+  hadc3.Init.DMAContinuousRequests = DISABLE;
+  hadc3.Init.EOCSelection = ADC_EOC_SINGLE_CONV;
+  if (HAL_ADC_Init(&hadc3) != HAL_OK)
+  {
+    Error_Handler();
+  }
+
+  /** Configure for the selected ADC regular channel its corresponding rank in the sequencer and its sample time.
+  */
+  sConfig.Channel = ADC_CHANNEL_1;
+  sConfig.Rank = 1;
+  sConfig.SamplingTime = ADC_SAMPLETIME_3CYCLES;
+  if (HAL_ADC_ConfigChannel(&hadc3, &sConfig) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /* USER CODE BEGIN ADC3_Init 2 */
+
+  /* USER CODE END ADC3_Init 2 */
 
 }
 
@@ -736,124 +806,108 @@ PUTCHAR_PROTOTYPE {
 }
 
 /**
-  * @brief Print CANBUS Error messages 
-  * @author Alex
-  * @retval None
-  */
- void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan1)
- {
-     if (HAL_CAN_GetRxMessage(hcan1, CAN_RX_FIFO0, &RxHeader, canRX) != HAL_OK)
-     {
-         //printf("CAN Message Read Failed. HAL ERROR... \r\n");
-         return;
-     }
-     else
-     {
-         HAL_GPIO_TogglePin(DEBUG_1_GPIO_Port, DEBUG_1_Pin);
-         if (RxHeader.IDE == CAN_ID_STD)
-         {
-            //  printf("Message has standard ID type...\r\n");
-            //  printf("Message ID:\t%#lx\r\n", RxHeader.StdId);
- 
-             if(RxHeader.StdId == 0x6B0){ // BMS
-               uint16_t pack_current     = (canRX[1] << 8) | canRX[0];
-               uint16_t pack_voltage     = (canRX[3] << 8) | canRX[2];
-               global_battery_voltage = ((float)pack_voltage)/10; 
-               uint8_t pack_soc          = canRX[4];
-               uint8_t pack_relay_state  = canRX[5];
- 
-              // printf("Pack Current: %d\r\n", pack_current);
-               printf("Pack Voltage: %d\r\n", pack_voltage);
-              //  printf("Pack SoC: %d\r\n", pack_soc);
-              //  printf("Pack Relay Status: %d\r\n", pack_relay_state);
- 
-             }
-             else if(RxHeader.StdId == 0x6B1){ // BMS
-               uint32_t pack_DCL = (canRX[3]<<24) | (canRX[2]<<16) | (canRX[1]<<8) | canRX[0];
-               uint8_t high_temp_derating = canRX[4];
-               uint8_t low_temp_derating   = canRX[5];
- 
-              //  printf("Pack DCL: %d\r\n", pack_DCL);
-              //  printf("High Temp Derating: %d\r\n", high_temp_derating);
-              //  printf("low_temp_derating: %d\r\n", low_temp_derating);
-             }
-             else
-             {
-             // printf("ERROR: Unknown IDE type\r\n");
-             return;
-             }
-         }
-         else if (RxHeader.IDE == CAN_ID_EXT)
-         {
-             // printf("Message has extended ID type...\r\n");
-             // printf("Message ID:\t%#lx\r\n", RxHeader.ExtId);
- 
-             if (RxHeader.ExtId == 0x0CF11E05)
-             {
-                 uint16_t RPM = (canRX[1] << 8) | canRX[0];
-                 uint16_t Current = (canRX[3] << 8) | canRX[2];
-                 uint16_t Voltage = (canRX[5] << 8) | canRX[4];
- 
-                //  printf("R  P  M = %u rpm\r\n", RPM);
-                //  printf("Current = %u A\r\n", Current/ 10);
-                //  printf("Voltage = %u V\r\n", Voltage / 10);
- 
-                 
-             }
-           
-             else if (RxHeader.ExtId == 0x0CF11F05)
-             {
-                 
-                 uint8_t throttle_signal = canRX[0];
-                 int8_t controller_temp = canRX[1] - 40; 
-                 int8_t motor_temp = canRX[2] - 30; 
-                //  printf("Throttle Signal: %d V\r\n", throttle_signal);
-                //  printf("Controller Temperature: %d ℃\r\n", controller_temp);
-                //  printf("Motor Temperature: %d ℃\r\n", motor_temp);
- 
-                
-                 if (canRX[4] & 0x01)
-                     printf("Controller Command: Forward\r\n");
-                 else if (canRX[4] & 0x02)
-                     printf("Controller Command: Backward\r\n");
-                 else if (canRX[4] & 0x03)
-                     printf("Controller Command: Reserved\r\n");
-                 else printf("Controller Command: Neutral\r\n");
- 
-                 if (((canRX[4] >> 2) & 0x03 )== 0x00)
-                     printf("Feedback: Stationary\r\n");
-                 else if (((canRX[4] >> 2) & 0x03 ) == 0x01)
-                     printf("Feedback: Forward\r\n");
-                 else if (((canRX[4] >> 2) & 0x03 ) == 0x02)
-                     printf("Feedback: Backward\r\n");
-                 else
-                     printf("Feedback: Reserved\r\n");
- 
-                 printf("Switch Status:\r\n");
-                 printf("  Boost: %s\r\n", (canRX[5] & 0x80) ? "ON" : "OFF");
-                 printf("  Foot Switch: %s\r\n", (canRX[5] & 0x40) ? "ON" : "OFF");
-                 printf("  Forward Switch: %s\r\n", (canRX[5] & 0x20) ? "ON" : "OFF");
-                 printf("  Backward Switch: %s\r\n", (canRX[5] & 0x10) ? "ON" : "OFF");
-                 printf("  12V Brake Switch: %s\r\n", (canRX[5] & 0x08) ? "ON" : "OFF");
-                 printf("  Hall C: %s\r\n", (canRX[5] & 0x04) ? "ON" : "OFF");
-                 printf("  Hall B: %s\r\n", (canRX[5] & 0x02) ? "ON" : "OFF");
-                 printf("  Hall A: %s\r\n", (canRX[5] & 0x01) ? "ON" : "OFF");
-             }
-         }
-         else
-         {
-             printf("ERROR: Unknown IDE type\r\n");
-             return;
-         }
- 
-     
-         printf("Message length is %ld byte(s)\r\n", RxHeader.DLC);
-         for (uint8_t i = 0; i < 8; i++)
-         {
-             printf("Byte %d: 0x%02X\r\n", i, canRX[i]);
-         }
-     }
- }
+ * @brief Print CANBUS Error messages
+ * @author Alex
+ * @retval None
+ */
+void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan1) {
+  if (HAL_CAN_GetRxMessage(hcan1, CAN_RX_FIFO0, &RxHeader, canRX) != HAL_OK) {
+    // printf("CAN Message Read Failed. HAL ERROR... \r\n");
+    return;
+  } else {
+    HAL_GPIO_TogglePin(DEBUG_1_GPIO_Port, DEBUG_1_Pin);
+    if (RxHeader.IDE == CAN_ID_STD) {
+      //  printf("Message has standard ID type...\r\n");
+      //  printf("Message ID:\t%#lx\r\n", RxHeader.StdId);
+
+      if (RxHeader.StdId == 0x6B0) { // BMS
+        uint16_t pack_current = (canRX[1] << 8) | canRX[0];
+        uint16_t pack_voltage = (canRX[3] << 8) | canRX[2];
+        global_battery_voltage = ((float)pack_voltage) / 10;
+        uint8_t pack_soc = canRX[4];
+        uint8_t pack_relay_state = canRX[5];
+
+        // printf("Pack Current: %d\r\n", pack_current);
+        printf("Pack Voltage: %d\r\n", pack_voltage);
+        //  printf("Pack SoC: %d\r\n", pack_soc);
+        //  printf("Pack Relay Status: %d\r\n", pack_relay_state);
+
+      } else if (RxHeader.StdId == 0x6B1) { // BMS
+        uint32_t pack_DCL =
+            (canRX[3] << 24) | (canRX[2] << 16) | (canRX[1] << 8) | canRX[0];
+        uint8_t high_temp_derating = canRX[4];
+        uint8_t low_temp_derating = canRX[5];
+
+        //  printf("Pack DCL: %d\r\n", pack_DCL);
+        //  printf("High Temp Derating: %d\r\n", high_temp_derating);
+        //  printf("low_temp_derating: %d\r\n", low_temp_derating);
+      } else {
+        // printf("ERROR: Unknown IDE type\r\n");
+        return;
+      }
+    } else if (RxHeader.IDE == CAN_ID_EXT) {
+      // printf("Message has extended ID type...\r\n");
+      // printf("Message ID:\t%#lx\r\n", RxHeader.ExtId);
+
+      if (RxHeader.ExtId == 0x0CF11E05) {
+        uint16_t RPM = (canRX[1] << 8) | canRX[0];
+        uint16_t Current = (canRX[3] << 8) | canRX[2];
+        uint16_t Voltage = (canRX[5] << 8) | canRX[4];
+
+        //  printf("R  P  M = %u rpm\r\n", RPM);
+        //  printf("Current = %u A\r\n", Current/ 10);
+        //  printf("Voltage = %u V\r\n", Voltage / 10);
+
+      }
+
+      else if (RxHeader.ExtId == 0x0CF11F05) {
+
+        uint8_t throttle_signal = canRX[0];
+        int8_t controller_temp = canRX[1] - 40;
+        int8_t motor_temp = canRX[2] - 30;
+        //  printf("Throttle Signal: %d V\r\n", throttle_signal);
+        //  printf("Controller Temperature: %d ℃\r\n", controller_temp);
+        //  printf("Motor Temperature: %d ℃\r\n", motor_temp);
+
+        if (canRX[4] & 0x01)
+          printf("Controller Command: Forward\r\n");
+        else if (canRX[4] & 0x02)
+          printf("Controller Command: Backward\r\n");
+        else if (canRX[4] & 0x03)
+          printf("Controller Command: Reserved\r\n");
+        else
+          printf("Controller Command: Neutral\r\n");
+
+        if (((canRX[4] >> 2) & 0x03) == 0x00)
+          printf("Feedback: Stationary\r\n");
+        else if (((canRX[4] >> 2) & 0x03) == 0x01)
+          printf("Feedback: Forward\r\n");
+        else if (((canRX[4] >> 2) & 0x03) == 0x02)
+          printf("Feedback: Backward\r\n");
+        else
+          printf("Feedback: Reserved\r\n");
+
+        printf("Switch Status:\r\n");
+        printf("  Boost: %s\r\n", (canRX[5] & 0x80) ? "ON" : "OFF");
+        printf("  Foot Switch: %s\r\n", (canRX[5] & 0x40) ? "ON" : "OFF");
+        printf("  Forward Switch: %s\r\n", (canRX[5] & 0x20) ? "ON" : "OFF");
+        printf("  Backward Switch: %s\r\n", (canRX[5] & 0x10) ? "ON" : "OFF");
+        printf("  12V Brake Switch: %s\r\n", (canRX[5] & 0x08) ? "ON" : "OFF");
+        printf("  Hall C: %s\r\n", (canRX[5] & 0x04) ? "ON" : "OFF");
+        printf("  Hall B: %s\r\n", (canRX[5] & 0x02) ? "ON" : "OFF");
+        printf("  Hall A: %s\r\n", (canRX[5] & 0x01) ? "ON" : "OFF");
+      }
+    } else {
+      printf("ERROR: Unknown IDE type\r\n");
+      return;
+    }
+
+    printf("Message length is %ld byte(s)\r\n", RxHeader.DLC);
+    for (uint8_t i = 0; i < 8; i++) {
+      printf("Byte %d: 0x%02X\r\n", i, canRX[i]);
+    }
+  }
+}
 /* USER CODE END 4 */
 
 /**
