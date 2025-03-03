@@ -52,6 +52,7 @@
 /* Private variables ---------------------------------------------------------*/
 ADC_HandleTypeDef hadc1;
 ADC_HandleTypeDef hadc2;
+ADC_HandleTypeDef hadc3;
 
 CAN_HandleTypeDef hcan1;
 
@@ -69,6 +70,7 @@ static void MX_ADC1_Init(void);
 static void MX_ADC2_Init(void);
 static void MX_CAN1_Init(void);
 static void MX_USART1_UART_Init(void);
+static void MX_ADC3_Init(void);
 /* USER CODE BEGIN PFP */
 #define PUTCHAR_PROTOTYPE int __io_putchar(int ch)
 /* USER CODE END PFP */
@@ -113,14 +115,24 @@ void internal_error_handler(void) {
 int vsense(int mode, uint16_t vsense_target, int num_tries) {
   printf("in vsense...\r\n");
   int i = 0;
+  uint16_t value_adc_high;
+  uint16_t value_adc_low;
   uint16_t value_adc;
   while (i < num_tries) {
     HAL_GPIO_TogglePin(DEBUG_1_GPIO_Port, DEBUG_1_Pin); // LED1 will flash
 
     HAL_ADC_Start(&hadc1); // Needs to be called every time
     HAL_ADC_PollForConversion(&hadc1, HAL_MAX_DELAY);
-    value_adc = HAL_ADC_GetValue(&hadc1);
-
+    value_adc_high = HAL_ADC_GetValue(&hadc1);
+    HAL_ADC_Start(&hadc2); // Needs to be called every time
+    HAL_ADC_PollForConversion(&hadc2, HAL_MAX_DELAY);
+    value_adc_low = HAL_ADC_GetValue(&hadc2);
+    if (value_adc_high < value_adc_low) {
+      value_adc = 0;
+    } else {
+      value_adc = value_adc_high - value_adc_low;
+    }
+    printf("ADC Reading: %i\r\n", value_adc);
     if (mode == PRECHARGE) { // PRECHARGE vsense logic
       if (value_adc > vsense_target) {
         HAL_GPIO_WritePin(DEBUG_2_GPIO_Port, DEBUG_2_Pin, GPIO_PIN_SET); // LED2
@@ -153,7 +165,7 @@ int vsense(int mode, uint16_t vsense_target, int num_tries) {
  * @author Peter Woolsey
  */
 void discharge_handler(void) {
-  printf("Entering precharge\r\n");
+  printf("Entering discharge\r\n");
   HAL_GPIO_WritePin(HVCP_EN_GPIO_Port, HVCP_EN_Pin, GPIO_PIN_RESET);
   HAL_GPIO_WritePin(HVCN_EN_GPIO_Port, HVCN_EN_Pin, GPIO_PIN_RESET);
   // actually discharge the board
@@ -202,8 +214,8 @@ void toggle_precharge(void) {
   HAL_GPIO_WritePin(DEBUG_1_GPIO_Port, DEBUG_1_Pin, GPIO_PIN_SET);
   printf("Vsense target voltage: %f\r\n", battery_voltage);
   uint16_t vsense_target =
-      battery_voltage * 35.5743243243; // 4095 / 103.6 * 0.9
-  printf("Vsense target voltage: %i\r\n", vsense_target);
+      battery_voltage * 21.5601965602; // 4095 * 2 / 3.3 / 103.6 * 0.9
+  printf("Vsense target uint12: %i\r\n", vsense_target);
   int num_tries = 100; // 500ms delay * num_tries = max time in vsense
 
   if (!vsense(PRECHARGE, vsense_target,
@@ -234,6 +246,7 @@ void toggle_precharge(void) {
  * @author  Peter Woolsey
  */
 void toggle_charging(void) {
+  printf("entering charging...\r\n");
   HAL_GPIO_WritePin(CHRGP_EN_GPIO_Port, CHRGP_EN_Pin, GPIO_PIN_SET);
   HAL_GPIO_WritePin(CHRGN_EN_GPIO_Port, CHRGN_EN_Pin, GPIO_PIN_SET);
   HAL_GPIO_WritePin(DEBUG_2_GPIO_Port, DEBUG_2_Pin, GPIO_PIN_SET);
@@ -246,6 +259,7 @@ void toggle_charging(void) {
  * @author  Peter Woolsey
  */
 void untoggle_charging(void) {
+  printf("exiting charging...\r\n");
   HAL_GPIO_WritePin(CHRGP_EN_GPIO_Port, CHRGP_EN_Pin, GPIO_PIN_RESET);
   HAL_GPIO_WritePin(CHRGN_EN_GPIO_Port, CHRGN_EN_Pin, GPIO_PIN_RESET);
   HAL_GPIO_WritePin(DEBUG_2_GPIO_Port, DEBUG_2_Pin, GPIO_PIN_RESET);
@@ -340,6 +354,7 @@ int main(void) {
   MX_ADC2_Init();
   MX_CAN1_Init();
   MX_USART1_UART_Init();
+  MX_ADC3_Init();
   /* USER CODE BEGIN 2 */
   // Setup
   uint8_t status = STARTUP;
@@ -352,7 +367,7 @@ int main(void) {
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1) {
-    printf("in error state...\r\n");
+    printf("in while loop...\r\n");
     new_status = get_switch_status();
     if (new_status == ERROR) {
       internal_error_handler();
@@ -474,7 +489,7 @@ static void MX_ADC1_Init(void) {
   /** Configure for the selected ADC regular channel its corresponding rank in
    * the sequencer and its sample time.
    */
-  sConfig.Channel = ADC_CHANNEL_0;
+  sConfig.Channel = ADC_CHANNEL_4;
   sConfig.Rank = 1;
   sConfig.SamplingTime = ADC_SAMPLETIME_3CYCLES;
   if (HAL_ADC_ConfigChannel(&hadc1, &sConfig) != HAL_OK) {
@@ -524,7 +539,7 @@ static void MX_ADC2_Init(void) {
   /** Configure for the selected ADC regular channel its corresponding rank in
    * the sequencer and its sample time.
    */
-  sConfig.Channel = ADC_CHANNEL_1;
+  sConfig.Channel = ADC_CHANNEL_5;
   sConfig.Rank = 1;
   sConfig.SamplingTime = ADC_SAMPLETIME_3CYCLES;
   if (HAL_ADC_ConfigChannel(&hadc2, &sConfig) != HAL_OK) {
@@ -533,6 +548,56 @@ static void MX_ADC2_Init(void) {
   /* USER CODE BEGIN ADC2_Init 2 */
 
   /* USER CODE END ADC2_Init 2 */
+}
+
+/**
+ * @brief ADC3 Initialization Function
+ * @param None
+ * @retval None
+ */
+static void MX_ADC3_Init(void) {
+
+  /* USER CODE BEGIN ADC3_Init 0 */
+
+  /* USER CODE END ADC3_Init 0 */
+
+  ADC_ChannelConfTypeDef sConfig = {0};
+
+  /* USER CODE BEGIN ADC3_Init 1 */
+
+  /* USER CODE END ADC3_Init 1 */
+
+  /** Configure the global features of the ADC (Clock, Resolution, Data
+   * Alignment and number of conversion)
+   */
+  hadc3.Instance = ADC3;
+  hadc3.Init.ClockPrescaler = ADC_CLOCK_SYNC_PCLK_DIV4;
+  hadc3.Init.Resolution = ADC_RESOLUTION_12B;
+  hadc3.Init.ScanConvMode = DISABLE;
+  hadc3.Init.ContinuousConvMode = DISABLE;
+  hadc3.Init.DiscontinuousConvMode = DISABLE;
+  hadc3.Init.ExternalTrigConvEdge = ADC_EXTERNALTRIGCONVEDGE_NONE;
+  hadc3.Init.ExternalTrigConv = ADC_SOFTWARE_START;
+  hadc3.Init.DataAlign = ADC_DATAALIGN_RIGHT;
+  hadc3.Init.NbrOfConversion = 1;
+  hadc3.Init.DMAContinuousRequests = DISABLE;
+  hadc3.Init.EOCSelection = ADC_EOC_SINGLE_CONV;
+  if (HAL_ADC_Init(&hadc3) != HAL_OK) {
+    Error_Handler();
+  }
+
+  /** Configure for the selected ADC regular channel its corresponding rank in
+   * the sequencer and its sample time.
+   */
+  sConfig.Channel = ADC_CHANNEL_1;
+  sConfig.Rank = 1;
+  sConfig.SamplingTime = ADC_SAMPLETIME_3CYCLES;
+  if (HAL_ADC_ConfigChannel(&hadc3, &sConfig) != HAL_OK) {
+    Error_Handler();
+  }
+  /* USER CODE BEGIN ADC3_Init 2 */
+
+  /* USER CODE END ADC3_Init 2 */
 }
 
 /**
@@ -688,11 +753,7 @@ static void MX_GPIO_Init(void) {
  * @retval None
  */
 PUTCHAR_PROTOTYPE {
-  /* Place your implementation of fputc here */
-  /* e.g. write a character to the USART1 and Loop until the end of transmission
-   */
   HAL_UART_Transmit(&huart1, (uint8_t *)&ch, 1, 0xFFFF);
-
   return ch;
 }
 /* USER CODE END 4 */

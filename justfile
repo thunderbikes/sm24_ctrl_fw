@@ -9,7 +9,7 @@ build:
 
 # flash using pyocd
 flash:
-  pyocd flash -t STM32F205RB build/vcu_test_tool.elf
+  python -m pyocd flash -t STM32F205RB build/sm24_ctrl_fw.elf
 
 # monitor the UART output using tio
 monitor:
