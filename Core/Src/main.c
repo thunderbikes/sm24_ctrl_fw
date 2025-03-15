@@ -18,6 +18,7 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
+#include "stm32f2xx_hal_gpio.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
@@ -206,6 +207,7 @@ void toggle_precharge(void) {
   HAL_Delay(AUX_SET_DELAY);
 
   if (HAL_GPIO_ReadPin(HVCN_AUX_GPIO_Port, HVCN_AUX_Pin) == GPIO_PIN_RESET ||
+      HAL_GPIO_ReadPin(HVCP_AUX_GPIO_Port, HVCP_AUX_Pin) == GPIO_PIN_SET ||
       HAL_GPIO_ReadPin(PRECHRG_AUX_GPIO_Port, PRECHRG_AUX_Pin) ==
           GPIO_PIN_RESET) {
     internal_error_handler();
@@ -225,13 +227,21 @@ void toggle_precharge(void) {
   }
 
   HAL_GPIO_WritePin(HVCP_EN_GPIO_Port, HVCP_EN_Pin, GPIO_PIN_SET);
-  HAL_Delay(1000);
+  HAL_Delay(AUX_SET_DELAY);
+  if (HAL_GPIO_ReadPin(HVCN_AUX_GPIO_Port, HVCN_AUX_Pin) == GPIO_PIN_RESET ||
+      HAL_GPIO_ReadPin(HVCP_AUX_GPIO_Port, HVCP_AUX_Pin) == GPIO_PIN_RESET ||
+      HAL_GPIO_ReadPin(PRECHRG_AUX_GPIO_Port, PRECHRG_AUX_Pin) ==
+          GPIO_PIN_RESET) {
+    internal_error_handler();
+  }
   HAL_GPIO_WritePin(PRECHRG_EN_GPIO_Port, PRECHRG_EN_Pin, GPIO_PIN_RESET);
 
   HAL_Delay(AUX_SET_DELAY);
 
   if (HAL_GPIO_ReadPin(HVCN_AUX_GPIO_Port, HVCN_AUX_Pin) == GPIO_PIN_RESET ||
-      HAL_GPIO_ReadPin(HVCP_AUX_GPIO_Port, HVCP_AUX_Pin) == GPIO_PIN_RESET) {
+      HAL_GPIO_ReadPin(HVCP_AUX_GPIO_Port, HVCP_AUX_Pin) == GPIO_PIN_RESET ||
+      HAL_GPIO_ReadPin(PRECHRG_AUX_GPIO_Port, PRECHRG_AUX_Pin) ==
+          GPIO_PIN_SET) {
     internal_error_handler();
   }
   // LED demo code
@@ -359,22 +369,27 @@ int main(void) {
   // Setup
   uint8_t status = STARTUP;
   uint8_t new_status;
-
-  HAL_Delay(500);
+  printf("Starting...\r\n");
+  printf("Resetting latch...\r\n");
+  HAL_GPIO_WritePin(LATCH_RST_GPIO_Port, LATCH_RST_Pin, GPIO_PIN_SET);
+  HAL_Delay(5000);
+  HAL_GPIO_WritePin(LATCH_RST_GPIO_Port, LATCH_RST_Pin, GPIO_PIN_RESET);
+  printf("Latch enabled...\r\n");
+  HAL_Delay(1000);
   HAL_GPIO_WritePin(MCU_OK_GPIO_Port, MCU_OK_Pin, GPIO_PIN_SET);
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1) {
-    printf("in while loop...\r\n");
+    // printf("in while loop...\r\n");
     new_status = get_switch_status();
     if (new_status == ERROR) {
       internal_error_handler();
     }
 
     if (new_status != status) { // handles change of switch state
-      printf("change in switches detected...\r\n");
+      printf("Change in switches detected...\r\n");
       if (status == STARTUP) { // where can you go from startup:
         if (new_status == OPERATION) {
           toggle_precharge();
