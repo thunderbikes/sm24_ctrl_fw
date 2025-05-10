@@ -13,4 +13,4 @@ flash:
 
 # monitor the UART output using tio
 monitor:
-  tio --auto-connect latest --map ODELBS
+  tio --log-directory logs/ --auto-connect latest --map ODELBS

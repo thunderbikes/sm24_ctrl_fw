@@ -1,5 +1,4 @@
-/* USER CODE BEGIN Header */
-/**
+/*
  ******************************************************************************
  * @file           : main.c
  * @brief          : Main program body
@@ -61,7 +60,7 @@ UART_HandleTypeDef huart1;
 
 /* USER CODE BEGIN PV */
 // only until CANBUS is implemented
-float battery_voltage = 24.0;
+float battery_voltage = 52.1;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -85,6 +84,8 @@ static void MX_ADC3_Init(void);
  * @author  Peter Woolsey
  */
 void internal_error_handler(void) {
+  HAL_GPIO_WritePin(LATCH_RST_GPIO_Port, LATCH_RST_Pin, GPIO_PIN_RESET);
+  printf("Latch enabled...\r\n");
   HAL_GPIO_WritePin(DEBUG_1_GPIO_Port, DEBUG_1_Pin, GPIO_PIN_RESET);
   HAL_GPIO_WritePin(DEBUG_2_GPIO_Port, DEBUG_2_Pin, GPIO_PIN_RESET);
   HAL_GPIO_WritePin(MCU_OK_GPIO_Port, MCU_OK_Pin, GPIO_PIN_RESET);
@@ -373,8 +374,8 @@ int main(void) {
   printf("Resetting latch...\r\n");
   HAL_GPIO_WritePin(LATCH_RST_GPIO_Port, LATCH_RST_Pin, GPIO_PIN_SET);
   HAL_Delay(5000);
-  HAL_GPIO_WritePin(LATCH_RST_GPIO_Port, LATCH_RST_Pin, GPIO_PIN_RESET);
-  printf("Latch enabled...\r\n");
+  // HAL_GPIO_WritePin(LATCH_RST_GPIO_Port, LATCH_RST_Pin, GPIO_PIN_RESET);
+  // printf("Latch enabled...\r\n");
   HAL_Delay(1000);
   HAL_GPIO_WritePin(MCU_OK_GPIO_Port, MCU_OK_Pin, GPIO_PIN_SET);
   /* USER CODE END 2 */
@@ -390,6 +391,8 @@ int main(void) {
 
     if (new_status != status) { // handles change of switch state
       printf("Change in switches detected...\r\n");
+      // printf("Resetting latch...\r\n");
+      // HAL_GPIO_WritePin(LATCH_RST_GPIO_Port, LATCH_RST_Pin, GPIO_PIN_SET);
       if (status == STARTUP) { // where can you go from startup:
         if (new_status == OPERATION) {
           toggle_precharge();
@@ -418,6 +421,8 @@ int main(void) {
         status = ERROR;
         internal_error_handler();
       }
+      // HAL_GPIO_WritePin(LATCH_RST_GPIO_Port, LATCH_RST_Pin, GPIO_PIN_RESET);
+      // printf("Latch enabled...\r\n");
     }
 
     aux_check(status); // to be implemented
